@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purecove - Tracker 🌸</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <style>
+        :root { --primary: #d81b60; --bg-soft: rgba(255, 255, 255, 0.88); --fertile: #ff80ab; --accent: #f06292; }
+        
+        body { 
+            font-family: 'Poppins', sans-serif; margin: 0; 
+            background: url('fotoovil/ovul.jpg') no-repeat center center fixed; 
+            background-size: cover; display: flex; justify-content: center; 
+            align-items: center; min-height: 100vh; padding: 10px; 
+        }
+        
+        .container { 
+            background: var(--bg-soft); backdrop-filter: blur(15px); 
+            padding: 30px; border-radius: 35px; width: 100%; max-width: 450px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3); text-align: center; border: 1px solid rgba(255,255,255,0.4);
+        }
+        
+        .page { display: none; }
+        .page.active { display: block; }
+
+        /* LOGIN STYLE */
+        .app-title { color: var(--primary); font-size: 32px; font-weight: 700; margin-bottom: 5px; }
+        .app-description { color: #444; font-size: 14px; margin-bottom: 25px; }
+        input { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 15px; box-sizing: border-box; background: white; font-size: 14px; }
+        .btn-main { background: var(--primary); color: white; border: none; padding: 16px; width: 100%; border-radius: 15px; font-weight: 700; cursor: pointer; font-size: 16px; margin-top: 10px; box-shadow: 0 5px 15px rgba(216, 27, 96, 0.4); }
+        .btn-outline { background: white; border: 2px solid var(--primary); color: var(--primary); padding: 12px; width: 100%; border-radius: 15px; font-weight: 700; cursor: pointer; margin-top: 15px; }
+
+        /* TRACKER STYLE */
+        #calendar { background: white; padding: 10px; border-radius: 20px; margin-bottom: 15px; }
+        .fc-daygrid-day-frame { min-height: 60px !important; display: flex !important; align-items: center !important; justify-content: center !important; position: relative !important; }
+        .fc-daygrid-day-number { position: absolute !important; top: 3px !important; right: 6px !important; z-index: 10 !important; font-size: 11px !important; font-weight: 700; }
+        .period-heart::before { content: '❤️'; font-size: 26px; position: absolute; z-index: 1; }
+        .ovulation-circle::before { content: 'OVILASYON'; width: 58px; height: 58px; background-color: var(--fertile); border-radius: 50%; opacity: 0.65; position: absolute; z-index: 1; border: 1.5px dotted #d81b60; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 800; color: #d81b60; }
+        .btn-back { background: #555; color: white; border: none; padding: 8px 15px; border-radius: 10px; cursor: pointer; float: left; margin-bottom: 10px; font-weight: 600; }
+
+        /* --- KLAVYE WON MODÈN --- */
+        #customKeypad {
+            display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 40px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3); z-index: 2000; width: 85%; max-width: 300px;
+            border: 2px solid var(--primary); backdrop-filter: blur(10px);
+        }
+        .keypad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; justify-items: center; }
+        .key-btn {
+            width: 70px; height: 70px; border-radius: 50%; border: none;
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            box-shadow: 6px 6px 12px #d1d1d1, -6px -6px 12px #ffffff;
+            font-size: 24px; font-weight: 700; color: var(--primary);
+            cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center;
+        }
+        .key-btn:active { background: var(--primary); color: white; transform: scale(0.9); }
+        .key-btn.close { background: #f44336; color: white; font-size: 18px; box-shadow: none; }
+        .key-btn.save { background: #4caf50; color: white; font-size: 18px; box-shadow: none; }
+
+        .payment-card { background: white; padding: 15px; border-radius: 20px; border: 1px dashed var(--primary); margin-top: 20px; text-align: center; }
+        .payment-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border-radius: 12px; text-decoration: none; color: white; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="loginPage" class="page active">
+            <div class="app-title">Purecove 🌸</div>
+            <div class="app-description">Swiv peryòd ou ak ovilasyon w an sekirite.</div>
+            <input type="text" id="loginUser" placeholder="Non Itilizatè">
+            <input type="password" id="loginPass" placeholder="Modpas">
+            <button class="btn-main" onclick="validateLogin()">KONEKTE</button>
+            <button class="btn-outline" onclick="showPage('signupPage')">KREYE YON KONT</button>
+            <p style="font-size: 11px; color: #444; margin-top: 25px; font-weight: 600;">Devlope pa Diego Felix</p>
+        </div>
+
+        <div id="signupPage" class="page">
+            <button class="btn-back" onclick="showPage('loginPage')">⬅ Fè Bak</button>
+            <h2 style="color: var(--primary); clear: both;">Kreye Kont</h2>
+            <input type="text" placeholder="Non konplè">
+            <input type="email" placeholder="Imèl">
+            <input type="password" placeholder="Chwazi yon modpas">
+            <button class="btn-main" onclick="alert('Kont ou kreye avèk siksè!'); showPage('loginPage')">ANREJISTRE</button>
+        </div>
+
+        <div id="trackerPage" class="page">
+            <button class="btn-back" onclick="showPage('loginPage')">⬅ Fè Bak</button>
+            <h1 style="color: var(--primary); clear: both; font-size: 20px; margin-bottom: 15px;">Mwa sa a 🌸</h1>
+            <div id="calendar"></div>
+            <button onclick="clearAll()" style="font-size: 10px; color: #999; border: none; background: none; cursor: pointer; text-decoration: underline;">Efase done yo</button>
+            <div class="payment-card">
+                <p style="font-weight:700; font-size:14px; color: var(--primary);">Sipòte Diego Felix 💚</p>
+                <a href="https://cash.app/$felixdiegobenius" target="_blank" class="payment-btn" style="background:#00d632">💸 CashApp</a>
+                <div class="payment-btn" style="background:#673ab7">💜 Zelle: felixdiegobenius@gmail.com</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="customKeypad">
+        <p style="font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 20px;">Opsyon Dat</p>
+        <div class="keypad-grid">
+            <button class="key-btn save" onclick="confirmDateAction()">❤️</button>
+            <button class="key-btn close" onclick="closeKeypad()">✕</button>
+            <button class="key-btn" style="font-size: 14px;" onclick="clearAll(); closeKeypad();">CLR</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script>
+        let calendar;
+        let selectedDateStr = "";
+        let periodDates = JSON.parse(localStorage.getItem('purecove_pèmanan_dates')) || [];
+
+        function validateLogin() {
+            const u = document.getElementById('loginUser').value.trim();
+            const p = document.getElementById('loginPass').value.trim();
+            if (u === "" || p === "") {
+                alert("Tanpri ranpli tout bwat yo!");
+            } else {
+                showPage('trackerPage');
+            }
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            if(pageId === 'trackerPage') {
+                setTimeout(() => { calendar.render(); refreshCalendar(); }, 200);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'ht',
+                headerToolbar: { left: 'prev', center: 'title', right: 'next' },
+                height: 'auto',
+                showNonCurrentDates: false, 
+                dateClick: function(info) {
+                    selectedDateStr = info.dateStr;
+                    openKeypad();
+                }
+            });
+        });
+
+        function openKeypad() { document.getElementById('customKeypad').style.display = 'block'; }
+        function closeKeypad() { document.getElementById('customKeypad').style.display = 'none'; }
+        
+        function confirmDateAction() {
+            toggleDate(selectedDateStr);
+            closeKeypad();
+        }
+
+        function toggleDate(dateStr) {
+            const index = periodDates.indexOf(dateStr);
+            if (index === -1) { periodDates.push(dateStr); } 
+            else { periodDates.splice(index, 1); }
+            localStorage.setItem('purecove_pèmanan_dates', JSON.stringify(periodDates));
+            refreshCalendar();
+        }
+
+        function refreshCalendar() {
+            if(!calendar) return;
+            calendar.removeAllEvents();
+            periodDates.forEach(date => {
+                calendar.addEvent({ start: date, display: 'background', className: 'period-heart' });
+            });
+            if(periodDates.length > 0) {
+                const sorted = [...periodDates].sort((a, b) => new Date(b) - new Date(a));
+                const lastDate = new Date(sorted[0]);
+                let ovuStart = new Date(lastDate);
+                ovuStart.setDate(ovuStart.getDate() + 13);
+                for (let i = 0; i < 3; i++) {
+                    let d = new Date(ovuStart);
+                    d.setDate(d.getDate() + i);
+                    calendar.addEvent({ start: d.toISOString().split('T')[0], display: 'background', className: 'ovulation-circle' });
+                }
+            }
+        }
+
+        function clearAll() {
+            if(confirm("Efase istorik la?")) {
+                periodDates = [];
+                localStorage.removeItem('purecove_pèmanan_dates');
+                refreshCalendar();
+            }
+        }
+    </script>
+</body>
+</html>
