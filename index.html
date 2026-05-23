@@ -55,7 +55,9 @@
 
         /* CHATBOT STYLE */
         .chat-container { display: flex; flex-direction: column; gap: 10px; }
-        .ai-box { background: #f3e5f5; border-left: 5px solid #4a148c; padding: 15px; border-radius: 10px; font-size: 13px; color: #333; line-height: 1.4; display: none; margin-top: 10px; }
+        .ai-box { background: #f3e5f5; border-left: 5px solid #4a148c; padding: 15px; border-radius: 10px; font-size: 13px; color: #333; line-height: 1.4; display: none; margin-top: 10px; position: relative; }
+        .btn-clear-ai { background: #e0e0e0; color: #333; border: none; padding: 5px 10px; font-size: 11px; font-weight: bold; border-radius: 5px; cursor: pointer; margin-top: 10px; display: inline-block; transition: 0.2s; }
+        .btn-clear-ai:hover { background: #d1c4e9; color: #4a148c; }
 
         /* DONATION STYLE */
         .payment-card { background: white; padding: 20px; border-radius: 20px; border: 2px dashed var(--primary); text-align: center; }
@@ -153,7 +155,7 @@
             <!-- TI BA 2: BOUTON AK BWAT ENTEÈLIJAN (CHATBOT) -->
             <div id="tabRobot" class="tab-content">
                 <div class="chat-container">
-                    <p style="font-size: 13px; color: #555; margin: 0 0 5px 0;">Poze m nenpòt kesyon sou kò w oswa sou lasante (eg: <i>Kisa planin fè? Mwen gen reta règ, Kijan moun fè ansent?</i>)</p>
+                    <p style="font-size: 13px; color: #555; margin: 0 0 5px 0;">Poze m nenpòt kesyon sou kò w oswa sou lasante (eg: <i>Mwen gen reta règ, kisa planin fè, mwen gen gwo doulè vant...</i>)</p>
                     <textarea id="botQueryInput" rows="2" placeholder="Tape kesyon ou an kreyòl la a..."></textarea>
                     <button class="btn-main" style="background: #4a148c; box-shadow: 0 5px 15px rgba(74, 20, 140, 0.3);" onclick="askPurecoveBot()">MANDE ROBÒT LA</button>
                     
@@ -339,7 +341,17 @@
             }
         }
 
-        /* --- ROBÒT ENTÈLIJAN KI REPONN KESYON SOU SANTE --- */
+        /* --- FONKSYON POU ROBÒT LA KLIYE LOGIK REPONS LI --- */
+        function clearBotResponse() {
+            const responseBox = document.getElementById('botResponseBox');
+            const inputField = document.getElementById('botQueryInput');
+            responseBox.innerHTML = "";
+            responseBox.style.display = "none";
+            inputField.value = "";
+            inputField.focus();
+        }
+
+        /* --- ROBÒT ENTÈLIJAN KI REPONN KESYON SOU SANTE (AMELYORE) --- */
         function askPurecoveBot() {
             const input = document.getElementById('botQueryInput').value.trim().toLowerCase();
             const responseBox = document.getElementById('botResponseBox');
@@ -351,27 +363,42 @@
 
             let responseText = "";
 
-            if (input.includes("ansent") || input.includes("gwo vant") || input.includes("konsepsyon")) {
-                responseText = "<b>🤖 Purecove AI:</b> Yon moun ka tonbe ansent lè gen yon rapò seksyèl san pwoteksyon kote espèm nan antre nan vajen epi li jwenn yon òvil pandan peryòd ovilasyon an. Si w pa vle ansent, li enpòtan pou w itilize kapòt oswa yon lòt planin.";
+            // Lojik la chèche mo kle yo menm si yo nan mitan yon long fraz
+            const genAnsent = input.includes("ansent") || input.includes("gwo vant") || input.includes("konsepsyon") || input.includes("fe pitit");
+            const genPlanin = input.includes("planin") || input.includes("kontrasepsyon") || input.includes("enplant") || input.includes("stérilet") || input.includes("piki") || input.includes("grenn");
+            const genOvilasyon = input.includes("obilasyon") || input.includes("ovilasyon") || input.includes("fètil") || input.includes("fertil");
+            const genReta = input.includes("reta") || input.includes("pa vini") || input.includes("pa we reg") || input.includes("pa wè règ") || input.includes("mwa sa a m pa");
+            const genDoulere = input.includes("doulè") || input.includes("doule") || input.includes("kranp") || input.includes("mal vant") || input.includes("anba vant");
+            const genGrate = input.includes("gratèl") || input.includes("gratel") || input.includes("demanjezon") || input.includes("grate") || input.includes("pèdi likid") || input.includes("likid");
+            const genSezaryen = input.includes("sezaryen") || input.includes("akouchman") || input.includes("pepete") || input.includes("fouche");
+
+            if (genAnsent) {
+                responseText = "<b>🤖 Purecove AI:</b> Yon moun ka tonbe ansent lè gen yon rapò seksyèl san pwoteksyon kote espèm nan antre nan vajen epi li jwenn yon òvil pandan peryòd ovilasyon an. Si w pa vle ansent, li enpòtan pou w itilize kapòt oswa yon lòt planin kòrèkteman.";
             } 
-            else if (input.includes("planin") || input.includes("kontrasepsyon") || input.includes("enplant") || input.includes("stérilet")) {
-                responseText = "<b>🤖 Purecove AI:</b> Planin ede anpeche gwosès vle. Gen planin òmònèl (grenn, piki, enplant) ak planin san òmòn (stérilet an kwiv, kapòt). Planin òmònèl yo ka chanje règleman w oswa ba w ti efè segondè, men yo trè efikas.";
+            else if (genPlanin) {
+                responseText = "<b>🤖 Purecove AI:</b> Planin ede anpeche gwosès vle. Gen planin òmònèl (grenn, piki, enplant) ak planin san òmòn (stérilet an kwiv, kapòt). Planin òmònèl yo ka chanje fason règ ou vini oswa ba w ti efè segondè, men yo trè efikas si w swiv yo byen.";
             } 
-            else if (input.includes("obilasyon") || input.includes("ovilasyon") || input.includes("fètil")) {
-                responseText = "<b>🤖 Purecove AI:</b> Ovulasyon an se lè kò a lage yon òvil pou fekondasyon. Li fèt an mwayèn 14 jou anvan pwochen règ ou a kòmanse. Se peryòd kote yon fanm gen plis chans pou l tonbe ansent.";
+            else if (genOvilasyon) {
+                responseText = "<b>🤖 Purecove AI:</b> Ovulasyon an se lè kò a lage yon òvil pou fekondasyon. Li fèt an mwayèn 14 jou anvan pwochen règ ou a kòmanse. Se peryòd kote yon fanm gen plis chans pou l tonbe ansent si li fè rapò san pwoteksyon.";
             } 
-            else if (input.includes("reta") || input.includes("règ mwen pa vini") || input.includes("pa wè règ")) {
-                responseText = "<b>🤖 Purecove AI:</b> Yon reta règ ka rive akòz estrès, gwo fatig, chanjman nan pwa kò w, oswa si w gen yon deregleman òmònèl. Men, si w te gen rapò san pwoteksyon, li ka yon siy gwosès. Li ta bon pou w fè yon tès gwosès apre 5 a 7 jou reta.";
+            else if (genReta) {
+                responseText = "<b>🤖 Purecove AI:</b> Yon reta règ ka rive akòz estrès, gwo fatig, chanjman nan pwa kò w, oswa si w gen yon deregleman òmònèl. Men, si w te gen rapò san pwoteksyon, li ka yon premye siy gwosès. Li ta bon pou w fè yon tès gwosès apre 5 a 7 jou reta.";
             } 
-            else if (input.includes("sezaryen") || input.includes("akouchman")) {
-                responseText = "<b>🤖 Purecove AI:</b> Apre yon akouchman natirèl, li bon pou w tann 6 semèn pou w rekòmanse rapò epi 12 mwa pou yon lòt gwosès. Si se te sezaryen, doktè rekòmande tann 18 a 24 mwa pou matris la geri byen nèt.";
-            } 
-            else if (input.includes("maladi") || input.includes("std") || input.includes("sida") || input.includes("gratèl") || input.includes("likid")) {
-                responseText = "<b>🤖 Purecove AI:</b> Maladi transmisib seksyèl (MTS/MTS) ka bay gratèl, doulè lè w ap pipi, oswa likid ki santi fò nan pati sekrè w. Toujou itilize kapòt pou pwoteje tèt ou epi ale wè yon doktè tousuit si w gen sentòm sa yo.";
+            else if (genDoulere) {
+                responseText = "<b>🤖 Purecove AI:</b> Doulè anba vant oswa kranp souvan lye ak règ ou k ap vini (dismenore) oswa ovilasyon nan mitan mwa a. Ou ka mete yon konprès cho sou vant ou oswa bwè yon te cho. Si doulè a twò fò epi li pa ka pase, konsilte yon doktè.";
+            }
+            else if (genGrate) {
+                responseText = "<b>🤖 Purecove AI:</b> Gratèl, demanjezon, oswa likid etranj nan pati sekrè ka siy yon enfeksyon (tankou kandida oswa bakteri). Evite mete rad sere, pa lave anndan vajen an ak savon pafen, epi konsilte yon pwofesyonèl sante si sa pèsiste.";
+            }
+            else if (genSezaryen) {
+                responseText = "<b>🤖 Purecove AI:</b> Apre yon akouchman natirèl, li bon pou w tann 6 semèn pou w rekòmanse rapò epi 12 mwa pou yon lòt gwosès. Si se te sezaryen, doktè rekòmande tann 18 a 24 mwa pou matris la gen tan byen geri nèt.";
             } 
             else {
-                responseText = "<b>🤖 Purecove AI:</b> Mwen konprann kesyon w lan, men kòm mwen se yon ti robòt k ap aprann, mwen pa gen tout detay sou sa ankò. Pou sekirite w, si se yon doulè oswa yon gwo pwoblèm sante, li toujou pi bon pou w konsilte yon doktè oswa yon pwofesyonèl medikal.";
+                responseText = "<b>🤖 Purecove AI:</b> Mwen resevwa kesyon w lan sou lasante! Kòm mwen se yon ti robòt k ap aprann, mwen rekòmande w veye kò w byen. Si se pou yon doulè oswa yon gwo pwoblèm sante, li toujou pi bon pou w konsilte yon doktè oswa yon pwofesyonèl medikal.";
             }
+
+            // Ajoute bouton pou efase repons lan anba tèks la
+            responseText += "<br><br><button class='btn-clear-ai' onclick='clearBotResponse()'>✕ Retire repons sa a</button>";
 
             responseBox.innerHTML = responseText;
             responseBox.style.display = "block";
