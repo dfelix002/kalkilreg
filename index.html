@@ -20,6 +20,7 @@
             background: var(--bg-soft); backdrop-filter: blur(15px); 
             padding: 30px; border-radius: 35px; width: 100%; max-width: 450px; 
             box-shadow: 0 20px 40px rgba(0,0,0,0.3); text-align: center; border: 1px solid rgba(255,255,255,0.4);
+            box-sizing: border-box;
         }
         
         .page { display: none; }
@@ -29,18 +30,38 @@
         .app-title { color: var(--primary); font-size: 32px; font-weight: 700; margin-bottom: 5px; }
         .app-description { color: #444; font-size: 14px; margin-bottom: 25px; }
         input { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 15px; box-sizing: border-box; background: white; font-size: 14px; }
+        textarea { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 15px; box-sizing: border-box; background: white; font-size: 14px; font-family: 'Poppins', sans-serif; resize: none; }
         .btn-main { background: var(--primary); color: white; border: none; padding: 16px; width: 100%; border-radius: 15px; font-weight: 700; cursor: pointer; font-size: 16px; margin-top: 10px; box-shadow: 0 5px 15px rgba(216, 27, 96, 0.4); }
         .btn-outline { background: white; border: 2px solid var(--primary); color: var(--primary); padding: 12px; width: 100%; border-radius: 15px; font-weight: 700; cursor: pointer; margin-top: 15px; }
+        .btn-back { background: #555; color: white; border: none; padding: 8px 15px; border-radius: 10px; cursor: pointer; float: left; margin-bottom: 10px; font-weight: 600; }
 
         /* TRACKER STYLE */
         #calendar { background: white; padding: 10px; border-radius: 20px; margin-bottom: 15px; }
         .fc-daygrid-day-frame { min-height: 60px !important; display: flex !important; align-items: center !important; justify-content: center !important; position: relative !important; }
-        .fc-daygrid-day-number { position: absolute !important; top: 3px !important; right: 6px !important; z-index: 10 !important; font-size: 11px !important; font-weight: 700; }
+        .fc-daygrid-day-number { position: absolute !important; top: 3px !important; right: 6px !important; z-index: 10 !important; font-size: 11px !important; font-weight: 700 !important; }
         .period-heart::before { content: '❤️'; font-size: 26px; position: absolute; z-index: 1; }
         .ovulation-circle::before { content: 'OVILASYON'; width: 58px; height: 58px; background-color: var(--fertile); border-radius: 50%; opacity: 0.65; position: absolute; z-index: 1; border: 1.5px dotted #d81b60; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 800; color: #d81b60; }
-        .btn-back { background: #555; color: white; border: none; padding: 8px 15px; border-radius: 10px; cursor: pointer; float: left; margin-bottom: 10px; font-weight: 600; }
 
-        /* --- KLAVYE WON MODÈN --- */
+        /* --- SISTÈM TWA TI BA YO (TABS) --- */
+        .tabs-container { display: flex; justify-content: space-between; background: #eee; padding: 5px; border-radius: 15px; margin-bottom: 20px; gap: 5px; }
+        .tab-bar { flex: 1; padding: 10px 5px; font-size: 12px; font-weight: 700; background: none; border: none; cursor: pointer; color: #555; border-radius: 10px; transition: 0.3s; }
+        .tab-bar.active { background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(216, 27, 96, 0.2); }
+        .tab-content { display: none; text-align: left; }
+        .tab-content.active { display: block; }
+
+        /* EDICAYON TEXT STYLE */
+        .edu-scroll { max-height: 400px; overflow-y: auto; padding-right: 5px; font-size: 13px; line-height: 1.5; color: #333; }
+        .edu-scroll h3 { color: var(--primary); font-size: 15px; margin-top: 15px; }
+
+        /* CHATBOT STYLE */
+        .chat-container { display: flex; flex-direction: column; gap: 10px; }
+        .ai-box { background: #f3e5f5; border-left: 5px solid #4a148c; padding: 15px; border-radius: 10px; font-size: 13px; color: #333; line-height: 1.4; display: none; margin-top: 10px; }
+
+        /* DONATION STYLE */
+        .payment-card { background: white; padding: 20px; border-radius: 20px; border: 2px dashed var(--primary); text-align: center; }
+        .payment-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 12px; text-decoration: none; color: white; font-weight: 600; margin-bottom: 10px; font-size: 14px; cursor: pointer; }
+
+        /* KLAVYE WON */
         #customKeypad {
             display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
             background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 40px;
@@ -58,14 +79,12 @@
         .key-btn:active { background: var(--primary); color: white; transform: scale(0.9); }
         .key-btn.close { background: #f44336; color: white; font-size: 18px; box-shadow: none; }
         .key-btn.save { background: #4caf50; color: white; font-size: 18px; box-shadow: none; }
-
-        .payment-card { background: white; padding: 15px; border-radius: 20px; border: 1px dashed var(--primary); margin-top: 20px; text-align: center; }
-        .payment-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border-radius: 12px; text-decoration: none; color: white; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
     </style>
 </head>
 <body>
 
     <div class="container">
+        <!-- LOGIN PAGE -->
         <div id="loginPage" class="page active">
             <div class="app-title">Purecove 🌸</div>
             <div class="app-description">Swiv peryòd ou ak ovilasyon w an sekirite.</div>
@@ -73,31 +92,89 @@
             <input type="password" id="loginPass" placeholder="Modpas">
             <button class="btn-main" onclick="validateLogin()">KONEKTE</button>
             <button class="btn-outline" onclick="showPage('signupPage')">KREYE YON KONT</button>
-            <p style="font-size: 11px; color: #444; margin-top: 25px; font-weight: 600;">Devlope pa Diego Felix</p>
+            <button class="btn-outline" onclick="showPage('forgotPage')" style="border-style: dashed;">Mwen bliye modpas</button>
+            <p style="font-size: 11px; color: #444; margin-top: 15px; font-weight: 600;">Devlope pa Diego Felix</p>
         </div>
 
+        <!-- SIGNUP PAGE -->
         <div id="signupPage" class="page">
             <button class="btn-back" onclick="showPage('loginPage')">⬅ Fè Bak</button>
             <h2 style="color: var(--primary); clear: both;">Kreye Kont</h2>
-            <input type="text" placeholder="Non konplè">
-            <input type="email" placeholder="Imèl">
-            <input type="password" placeholder="Chwazi yon modpas">
-            <button class="btn-main" onclick="alert('Kont ou kreye avèk siksè!'); showPage('loginPage')">ANREJISTRE</button>
+            <input type="text" id="signupUsername" placeholder="Non Itilizatè">
+            <input type="email" id="signupEmail" placeholder="Imèl">
+            <input type="password" id="signupPass" placeholder="Chwazi yon modpas">
+            <button class="btn-main" onclick="registerAccount()">ANREJISTRE</button>
         </div>
 
-        <div id="trackerPage" class="page">
+        <!-- FORGOT PASSWORD PAGE -->
+        <div id="forgotPage" class="page">
             <button class="btn-back" onclick="showPage('loginPage')">⬅ Fè Bak</button>
-            <h1 style="color: var(--primary); clear: both; font-size: 20px; margin-bottom: 15px;">Mwa sa a 🌸</h1>
+            <h2 style="color: var(--primary); clear: both;">Reyajiste Modpas</h2>
+            <input type="email" id="forgotEmail" placeholder="Imèl ou anrejistre">
+            <input type="password" id="forgotNewPass" placeholder="Nouvo modpas">
+            <input type="password" id="forgotConfirmPass" placeholder="Konfime nouvo modpas">
+            <button class="btn-main" onclick="resetPassword()">VOYE</button>
+        </div>
+
+        <!-- TRACKER PAGE -->
+        <div id="trackerPage" class="page">
+            <button class="btn-back" onclick="showPage('loginPage')">⬅ Sòti</button>
+            <h1 style="color: var(--primary); clear: both; font-size: 20px; margin-bottom: 15px; text-align: center;">Mwa sa a 🌸</h1>
+            
             <div id="calendar"></div>
-            <button onclick="clearAll()" style="font-size: 10px; color: #999; border: none; background: none; cursor: pointer; text-decoration: underline;">Efase done yo</button>
-            <div class="payment-card">
-                <p style="font-weight:700; font-size:14px; color: var(--primary);">Sipòte Diego Felix 💚</p>
-                <a href="https://cash.app/$felixdiegobenius" target="_blank" class="payment-btn" style="background:#00d632">💸 CashApp</a>
-                <div class="payment-btn" style="background:#673ab7">💜 Zelle: felixdiegobenius@gmail.com</div>
+            <button onclick="clearAll()" style="font-size: 12px; color: #d81b60; border: none; background: none; cursor: pointer; text-decoration: underline; font-weight: 600; display: block; margin: -5px auto 15px;">Efase kalandriye a</button>
+            
+            <!-- --- TWA TI BA NAVIGASYON YO --- -->
+            <div class="tabs-container">
+                <button class="tab-bar active" onclick="switchTab(event, 'tabEdikasyon')">📚 Edikasyon</button>
+                <button class="tab-bar" onclick="switchTab(event, 'tabRobot')">🤖 Poze Kesyon</button>
+                <button class="tab-bar" onclick="switchTab(event, 'tabDonation')">💚 Sipòte n</button>
             </div>
+
+            <!-- TI BA 1: EDILASYON SEKSYÈL -->
+            <div id="tabEdikasyon" class="tab-content active">
+                <div class="edu-scroll">
+                    <h3>Kijan moun ka tonbe ansent?</h3>
+                    <p>Yo ka tonbe ansent lè espèm antre nan vajen pandan yon rapò seksyèl san pwoteksyon. Espèm la ka travèse matris la pou l jwenn yon òvil pou fekonde l.</p>
+                    <h3>Kisa peryòd ovilasyon ye?</h3>
+                    <p>Ovulasyon se lè yon fanm lage yon òvil. Sa rive an mwayèn 10-16 jou anvan pwochen règ la. Lè ou gen rapò san pwoteksyon nan peryòd sa, chans pou ou vin ansent trè wo.</p>
+                    <h3>Konbyen tan tann apre akouchman natirèl?</h3>
+                    <p>Aprè yon akouchman nòmal, doktè rekòmande tann omwen 6 semèn anvan ou rekòmanse rapò. Si w vle re-ansent, li pi bon pou w tann 12 mwa pou kò w refè nèt.</p>
+                    <h3>Konbyen tan apre sezaryen?</h3>
+                    <p>Aprè yon sezaryen, li rekòmande pou tann ant 18 a 24 mwa anvan w eseye ansent ankò pou bay blesi chirijikal yo tan pou yo byen geri nan matris la.</p>
+                    <h3>Kalite Planin yo</h3>
+                    <ul>
+                        <li><strong>Pi efikas:</strong> IUD (Stérilet), implant, jeneralman piki (Depo-Provera) ak grenn.</li>
+                        <li><strong>Mwayèn efikas:</strong> Kapòt feminen, kapòt maskilen, diaphragm, metòd tanperati.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- TI BA 2: BOUTON AK BWAT ENTEÈLIJAN (CHATBOT) -->
+            <div id="tabRobot" class="tab-content">
+                <div class="chat-container">
+                    <p style="font-size: 13px; color: #555; margin: 0 0 5px 0;">Poze m nenpòt kesyon sou kò w oswa sou lasante (eg: <i>Kisa planin fè? Mwen gen reta règ, Kijan moun fè ansent?</i>)</p>
+                    <textarea id="botQueryInput" rows="2" placeholder="Tape kesyon ou an kreyòl la a..."></textarea>
+                    <button class="btn-main" style="background: #4a148c; box-shadow: 0 5px 15px rgba(74, 20, 140, 0.3);" onclick="askPurecoveBot()">MANDE ROBÒT LA</button>
+                    
+                    <div id="botResponseBox" class="ai-box"></div>
+                </div>
+            </div>
+
+            <!-- TI BA 3: DONATION (CASHAPP AK ZELLE) -->
+            <div id="tabDonation" class="tab-content">
+                <div class="payment-card">
+                    <p style="font-weight:700; font-size:14px; color: var(--primary); margin-top: 0;">Sipòte Diego Felix pou pwojè sa a 💚</p>
+                    <p style="font-size: 12px; color: #555; margin-bottom: 15px;">Èd ou ap pèmèt nou kontinye devlope aplikasyon an pi byen toujou.</p>
+                    <a href="https://cash.app/$felixdiegobenius" target="_blank" class="payment-btn" style="background:#00d632">💸 CashApp ($felixdiegobenius)</a>
+                    <div class="payment-btn" style="background:#673ab7">💜 Zelle: felixdiegobenius@gmail.com</div>
+                </div>
+            </div>
+
         </div>
     </div>
 
+    <!-- KEYPAD MODAL -->
     <div id="customKeypad">
         <p style="font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 20px;">Opsyon Dat</p>
         <div class="keypad-grid">
@@ -113,37 +190,107 @@
         let selectedDateStr = "";
         let periodDates = JSON.parse(localStorage.getItem('purecove_pèmanan_dates')) || [];
 
+        const defaultCredentials = { username: 'purecove', password: '1234', email: 'purecove@app.com' };
+
+        function getSavedCredentials() {
+            return JSON.parse(localStorage.getItem('purecove_credentials')) || defaultCredentials;
+        }
+
+        function saveCredentials(credentials) {
+            localStorage.setItem('purecove_credentials', JSON.stringify(credentials));
+        }
+
         function validateLogin() {
             const u = document.getElementById('loginUser').value.trim();
             const p = document.getElementById('loginPass').value.trim();
+            const saved = getSavedCredentials();
+            const normalizedUser = u.toLowerCase();
+            const userMatches = normalizedUser === saved.username.toLowerCase() || normalizedUser === saved.email.toLowerCase();
+            
             if (u === "" || p === "") {
                 alert("Tanpri ranpli tout bwat yo!");
+            } else if (!userMatches || p !== saved.password) {
+                alert("Itilizatè, imèl oswa modpas pa kòrèk. Eseye ankò.");
             } else {
                 showPage('trackerPage');
             }
         }
 
+        function registerAccount() {
+            const username = document.getElementById('signupUsername').value.trim();
+            const email = document.getElementById('signupEmail').value.trim().toLowerCase();
+            const pass = document.getElementById('signupPass').value.trim();
+            if (username === "" || email === "" || pass === "") {
+                alert("Tanpri ranpli tout enfòmasyon yo pou kreye kont lan.");
+                return;
+            }
+            saveCredentials({ username, password: pass, email });
+            alert('Kont ou kreye avèk siksè! Kounye a ou ka konekte.');
+            document.getElementById('signupUsername').value = '';
+            document.getElementById('signupEmail').value = '';
+            document.getElementById('signupPass').value = '';
+            showPage('loginPage');
+        }
+
+        function resetPassword() {
+            const email = document.getElementById('forgotEmail').value.trim();
+            const newPass = document.getElementById('forgotNewPass').value.trim();
+            const confirmPass = document.getElementById('forgotConfirmPass').value.trim();
+            const saved = getSavedCredentials();
+
+            if (email === "" || newPass === "" || confirmPass === "") {
+                alert('Tanpri ranpli tout chan yo.');
+                return;
+            }
+            if (email !== saved.email) {
+                alert('Imèl sa a pa koresponn ak kont anrejistre a.');
+                return;
+            }
+            if (newPass !== confirmPass) {
+                alert('Modpas yo pa matche.');
+                return;
+            }
+
+            saveCredentials({ username: saved.username, password: newPass, email: saved.email });
+            alert('Modpas la chanje avèk siksè! Kounye a ou ka konekte ak nouvo modpas la.');
+            document.getElementById('forgotEmail').value = '';
+            document.getElementById('forgotNewPass').value = '';
+            document.getElementById('forgotConfirmPass').value = '';
+            showPage('loginPage');
+        }
+
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            if(pageId === 'trackerPage') {
+            if(pageId === 'trackerPage' && calendar) {
                 setTimeout(() => { calendar.render(); refreshCalendar(); }, 200);
             }
         }
 
+        /* FONKSYON POU CHANJE TI BA YO (TABS) */
+        function switchTab(evt, tabId) {
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.querySelectorAll('.tab-bar').forEach(tab => tab.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
-            calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                locale: 'ht',
-                headerToolbar: { left: 'prev', center: 'title', right: 'next' },
-                height: 'auto',
-                showNonCurrentDates: false, 
-                dateClick: function(info) {
-                    selectedDateStr = info.dateStr;
-                    openKeypad();
-                }
-            });
+            if (calendarEl) {
+                calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    locale: 'ht',
+                    headerToolbar: { left: 'prev', center: 'title', right: 'next' },
+                    height: 'auto',
+                    showNonCurrentDates: false, 
+                    dateClick: function(info) {
+                        selectedDateStr = info.dateStr;
+                        openKeypad();
+                    }
+                });
+            }
         });
 
         function openKeypad() { document.getElementById('customKeypad').style.display = 'block'; }
@@ -182,11 +329,52 @@
         }
 
         function clearAll() {
-            if(confirm("Efase istorik la?")) {
+            if(confirm("Èske ou sèten ou vle efase tout istorik dat ou yo nèt?")) {
                 periodDates = [];
                 localStorage.removeItem('purecove_pèmanan_dates');
-                refreshCalendar();
+                if(calendar) {
+                    refreshCalendar();
+                }
+                alert("Done yo efase avèk siksè!");
             }
+        }
+
+        /* --- ROBÒT ENTÈLIJAN KI REPONN KESYON SOU SANTE --- */
+        function askPurecoveBot() {
+            const input = document.getElementById('botQueryInput').value.trim().toLowerCase();
+            const responseBox = document.getElementById('botResponseBox');
+            
+            if(input === "") {
+                alert("Tanpri poze yon kesyon anvan pou robòt la ka reponn ou.");
+                return;
+            }
+
+            let responseText = "";
+
+            if (input.includes("ansent") || input.includes("gwo vant") || input.includes("konsepsyon")) {
+                responseText = "<b>🤖 Purecove AI:</b> Yon moun ka tonbe ansent lè gen yon rapò seksyèl san pwoteksyon kote espèm nan antre nan vajen epi li jwenn yon òvil pandan peryòd ovilasyon an. Si w pa vle ansent, li enpòtan pou w itilize kapòt oswa yon lòt planin.";
+            } 
+            else if (input.includes("planin") || input.includes("kontrasepsyon") || input.includes("enplant") || input.includes("stérilet")) {
+                responseText = "<b>🤖 Purecove AI:</b> Planin ede anpeche gwosès vle. Gen planin òmònèl (grenn, piki, enplant) ak planin san òmòn (stérilet an kwiv, kapòt). Planin òmònèl yo ka chanje règleman w oswa ba w ti efè segondè, men yo trè efikas.";
+            } 
+            else if (input.includes("obilasyon") || input.includes("ovilasyon") || input.includes("fètil")) {
+                responseText = "<b>🤖 Purecove AI:</b> Ovulasyon an se lè kò a lage yon òvil pou fekondasyon. Li fèt an mwayèn 14 jou anvan pwochen règ ou a kòmanse. Se peryòd kote yon fanm gen plis chans pou l tonbe ansent.";
+            } 
+            else if (input.includes("reta") || input.includes("règ mwen pa vini") || input.includes("pa wè règ")) {
+                responseText = "<b>🤖 Purecove AI:</b> Yon reta règ ka rive akòz estrès, gwo fatig, chanjman nan pwa kò w, oswa si w gen yon deregleman òmònèl. Men, si w te gen rapò san pwoteksyon, li ka yon siy gwosès. Li ta bon pou w fè yon tès gwosès apre 5 a 7 jou reta.";
+            } 
+            else if (input.includes("sezaryen") || input.includes("akouchman")) {
+                responseText = "<b>🤖 Purecove AI:</b> Apre yon akouchman natirèl, li bon pou w tann 6 semèn pou w rekòmanse rapò epi 12 mwa pou yon lòt gwosès. Si se te sezaryen, doktè rekòmande tann 18 a 24 mwa pou matris la geri byen nèt.";
+            } 
+            else if (input.includes("maladi") || input.includes("std") || input.includes("sida") || input.includes("gratèl") || input.includes("likid")) {
+                responseText = "<b>🤖 Purecove AI:</b> Maladi transmisib seksyèl (MTS/MTS) ka bay gratèl, doulè lè w ap pipi, oswa likid ki santi fò nan pati sekrè w. Toujou itilize kapòt pou pwoteje tèt ou epi ale wè yon doktè tousuit si w gen sentòm sa yo.";
+            } 
+            else {
+                responseText = "<b>🤖 Purecove AI:</b> Mwen konprann kesyon w lan, men kòm mwen se yon ti robòt k ap aprann, mwen pa gen tout detay sou sa ankò. Pou sekirite w, si se yon doulè oswa yon gwo pwoblèm sante, li toujou pi bon pou w konsilte yon doktè oswa yon pwofesyonèl medikal.";
+            }
+
+            responseBox.innerHTML = responseText;
+            responseBox.style.display = "block";
         }
     </script>
 </body>
