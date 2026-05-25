@@ -4,404 +4,308 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Purecove - Tracker 🌸</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #d81b60; --bg-soft: rgba(255, 255, 255, 0.88); --fertile: #ff80ab; --accent: #f06292; }
-        
-        body { 
-            font-family: 'Poppins', sans-serif; margin: 0; 
-            background: url('fotoovil/ovul.jpg') no-repeat center center fixed; 
-            background-size: cover; display: flex; justify-content: center; 
-            align-items: center; min-height: 100vh; padding: 10px; 
-        }
-        
-        .container { 
-            background: var(--bg-soft); backdrop-filter: blur(15px); 
-            padding: 30px; border-radius: 35px; width: 100%; max-width: 450px; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3); text-align: center; border: 1px solid rgba(255,255,255,0.4);
-            box-sizing: border-box;
-        }
-        
-        .page { display: none; }
+        :root { --primary: #d81b60; --bg: #ffffff; --blood: #b71c1c; --blue: #0288d1; --soft-pink: #fce4ec; --dark: #311b92; }
+        body { font-family: 'Poppins', sans-serif; margin: 0; background: #fff5f8; display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; }
+        .container { background: var(--bg); width: 100%; max-width: 450px; min-height: 100vh; position: relative; display: flex; flex-direction: column; box-shadow: 0 0 20px rgba(0,0,0,0.05); }
+        .page { display: none; padding: 25px; box-sizing: border-box; width: 100%; flex: 1; animation: fadeIn 0.3s ease; }
         .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* LOGIN STYLE */
-        .app-title { color: var(--primary); font-size: 32px; font-weight: 700; margin-bottom: 5px; }
-        .app-description { color: #444; font-size: 14px; margin-bottom: 25px; }
-        input { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 15px; box-sizing: border-box; background: white; font-size: 14px; }
-        textarea { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 15px; box-sizing: border-box; background: white; font-size: 14px; font-family: 'Poppins', sans-serif; resize: none; }
-        .btn-main { background: var(--primary); color: white; border: none; padding: 16px; width: 100%; border-radius: 15px; font-weight: 700; cursor: pointer; font-size: 16px; margin-top: 10px; box-shadow: 0 5px 15px rgba(216, 27, 96, 0.4); }
-        .btn-outline { background: white; border: 2px solid var(--primary); color: var(--primary); padding: 12px; width: 100%; border-radius: 15px; font-weight: 700; cursor: pointer; margin-top: 15px; }
-        .btn-back { background: #555; color: white; border: none; padding: 8px 15px; border-radius: 10px; cursor: pointer; float: left; margin-bottom: 10px; font-weight: 600; }
+        /* WELCOME SCREEN STYLE */
+        #welcomePage { text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(135deg, #f06292, #d81b60); color: white; height: 100vh; width: 100%; position: absolute; top: 0; left: 0; z-index: 9999; transition: 0.5s; }
+        #welcomePage.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
+        .logo-circle { width: 120px; height: 120px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 60px; margin-bottom: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .btn-white { background: white; color: var(--primary); border: none; padding: 18px 60px; border-radius: 35px; font-weight: 700; cursor: pointer; font-size: 17px; }
 
-        /* TRACKER STYLE */
-        #calendar { background: white; padding: 10px; border-radius: 20px; margin-bottom: 15px; }
-        .fc-daygrid-day-frame { min-height: 60px !important; display: flex !important; align-items: center !important; justify-content: center !important; position: relative !important; }
-        .fc-daygrid-day-number { position: absolute !important; top: 3px !important; right: 6px !important; z-index: 10 !important; font-size: 11px !important; font-weight: 700 !important; }
-        .period-heart::before { content: '❤️'; font-size: 26px; position: absolute; z-index: 1; }
-        .ovulation-circle::before { content: 'OVILASYON'; width: 58px; height: 58px; background-color: var(--fertile); border-radius: 50%; opacity: 0.65; position: absolute; z-index: 1; border: 1.5px dotted #d81b60; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 800; color: #d81b60; }
+        /* FORMS & BUTTONS */
+        input { width: 100%; padding: 16px; margin: 12px 0; border: 1px solid #eee; border-radius: 15px; background: #f9f9f9; font-size: 15px; outline: none; box-sizing: border-box; }
+        .btn-main { background: var(--primary); color: white; border: none; padding: 18px; width: 100%; border-radius: 15px; font-weight: 700; cursor: pointer; font-size: 16px; margin-top: 10px; }
 
-        /* --- SISTÈM TWA TI BA YO (TABS) --- */
-        .tabs-container { display: flex; justify-content: space-between; background: #eee; padding: 5px; border-radius: 15px; margin-bottom: 20px; gap: 5px; }
-        .tab-bar { flex: 1; padding: 10px 5px; font-size: 12px; font-weight: 700; background: none; border: none; cursor: pointer; color: #555; border-radius: 10px; transition: 0.3s; }
-        .tab-bar.active { background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(216, 27, 96, 0.2); }
-        .tab-content { display: none; text-align: left; }
-        .tab-content.active { display: block; }
+        /* DASHBOARD */
+        .status-card { background: linear-gradient(135deg, #ffffff, #fff0f5); border-radius: 30px; padding: 30px 20px; text-align: center; box-shadow: 0 10px 25px rgba(216, 27, 96, 0.08); margin: 20px 0; border: 1px solid #fce4ec; }
+        .days-big { font-size: 56px; font-weight: 800; color: var(--primary); line-height: 1; }
+        .info-box { background: white; border-radius: 20px; padding: 15px; margin-top: 12px; border: 1px solid #f1f1f1; text-align: left; }
+        .info-title { font-size: 11px; color: #aaa; font-weight: 700; text-transform: uppercase; }
+        .info-val { font-size: 15px; font-weight: 700; color: #333; margin-top: 3px; }
 
-        /* EDICAYON TEXT STYLE */
-        .edu-scroll { max-height: 400px; overflow-y: auto; padding-right: 5px; font-size: 13px; line-height: 1.5; color: #333; }
-        .edu-scroll h3 { color: var(--primary); font-size: 15px; margin-top: 15px; }
+        /* CALENDAR */
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+        .day-name { text-align: center; font-size: 11px; color: #bbb; font-weight: 700; padding-bottom: 8px; }
+        .calendar-day { background: #fff; border: 1px solid #f5f5f5; border-radius: 12px; height: 62px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; position: relative; transition: 0.2s; }
+        .day-num { font-size: 14px; font-weight: 700; color: #444; }
+        .day-icon { font-size: 18px; height: 20px; line-height: 1; }
+        .is-selected { background: #fff0f5 !important; border-color: var(--primary) !important; }
+        .other-month { opacity: 0.1; pointer-events: none; }
 
-        /* CHATBOT STYLE */
-        .chat-container { display: flex; flex-direction: column; gap: 10px; }
-        .ai-box { background: #f3e5f5; border-left: 5px solid #4a148c; padding: 15px; border-radius: 10px; font-size: 13px; color: #333; line-height: 1.4; display: none; margin-top: 10px; position: relative; }
-        .btn-clear-ai { background: #e0e0e0; color: #333; border: none; padding: 5px 10px; font-size: 11px; font-weight: bold; border-radius: 5px; cursor: pointer; margin-top: 10px; display: inline-block; transition: 0.2s; }
-        .btn-clear-ai:hover { background: #d1c4e9; color: #4a148c; }
+        /* TOOLS STYLE */
+        .tool-card { background: #f9f9f9; padding: 20px; border-radius: 25px; margin-top: 20px; text-align: center; border: 1px solid #eee; }
+        .contra-log { text-align: left; margin-top: 15px; font-size: 13px; max-height: 150px; overflow-y: auto; background: white; padding: 10px; border-radius: 10px; }
+        .symptom-item { display: flex; justify-content: space-between; align-items: center; background: white; padding: 10px 15px; border-radius: 15px; margin-bottom: 8px; font-size: 14px; border: 1px solid #f0f0f0; }
+        .btn-del { background: none; border: none; color: #ff5252; font-weight: 800; cursor: pointer; font-size: 18px; }
 
-        /* DONATION STYLE */
-        .payment-card { background: white; padding: 20px; border-radius: 20px; border: 2px dashed var(--primary); text-align: center; }
-        .payment-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 12px; text-decoration: none; color: white; font-weight: 600; margin-bottom: 10px; font-size: 14px; cursor: pointer; }
+        /* BOTTOM NAV */
+        #bottomNav { display: none; position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 450px; background: white; justify-content: space-around; padding: 15px 0; border-top: 1px solid #f0f0f0; z-index: 1000; }
+        .nav-btn { font-size: 24px; color: #ddd; cursor: pointer; }
+        .nav-btn.active { color: var(--primary); }
 
-        /* KLAVYE WON */
-        #customKeypad {
-            display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 40px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.3); z-index: 2000; width: 85%; max-width: 300px;
-            border: 2px solid var(--primary); backdrop-filter: blur(10px);
-        }
-        .keypad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; justify-items: center; }
-        .key-btn {
-            width: 70px; height: 70px; border-radius: 50%; border: none;
-            background: linear-gradient(145deg, #ffffff, #f0f0f0);
-            box-shadow: 6px 6px 12px #d1d1d1, -6px -6px 12px #ffffff;
-            font-size: 24px; font-weight: 700; color: var(--primary);
-            cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center;
-        }
-        .key-btn:active { background: var(--primary); color: white; transform: scale(0.9); }
-        .key-btn.close { background: #f44336; color: white; font-size: 18px; box-shadow: none; }
-        .key-btn.save { background: #4caf50; color: white; font-size: 18px; box-shadow: none; }
+        /* MODALS */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; justify-content: center; align-items: center; }
+        .modal-box { background: white; padding: 30px; border-radius: 30px; width: 85%; max-width: 350px; text-align: center; }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <!-- LOGIN PAGE -->
-        <div id="loginPage" class="page active">
-            <div class="app-title">Purecove 🌸</div>
-            <div class="app-description">Swiv peryòd ou ak ovilasyon w an sekirite.</div>
-            <input type="text" id="loginUser" placeholder="Non Itilizatè">
+        <!-- 1. WELCOME PAGE -->
+        <div id="welcomePage">
+            <div class="logo-circle">🌸</div>
+            <h1 style="font-size: 40px; font-weight: 800; margin: 0;">Purecove</h1>
+            <p style="font-size: 18px; opacity: 0.95; margin: 10px 0 40px 0;">Tracker Peryòd ki pi senp lan</p>
+            <button class="btn-white" onclick="startApp()">KONTINYE</button>
+        </div>
+
+        <!-- 2. LOGIN -->
+        <div id="loginPage" class="page">
+            <h2 style="color: var(--primary); font-size: 30px; text-align:center;">Byenvini!</h2>
+            <input type="email" id="loginEmail" placeholder="Imèl">
             <input type="password" id="loginPass" placeholder="Modpas">
-            <button class="btn-main" onclick="validateLogin()">KONEKTE</button>
-            <button class="btn-outline" onclick="showPage('signupPage')">KREYE YON KONT</button>
-            <button class="btn-outline" onclick="showPage('forgotPage')" style="border-style: dashed;">Mwen bliye modpas</button>
-            <p style="font-size: 11px; color: #444; margin-top: 15px; font-weight: 600;">Devlope pa Diego Felix</p>
+            <button class="btn-main" onclick="handleLogin()">KONEKTE</button>
+            <p style="text-align:center; margin-top:20px; color:var(--primary); font-weight:600; cursor:pointer;" onclick="showPage('forgotPage')">Mwen bliye modpas mwen</p>
+            <p style="text-align:center; margin-top:15px; color:#999;" onclick="showPage('signupPage')">Ou pa gen kont? <b>Kreye yonn</b></p>
         </div>
 
-        <!-- SIGNUP PAGE -->
-        <div id="signupPage" class="page">
-            <button class="btn-back" onclick="showPage('loginPage')">⬅ Fè Bak</button>
-            <h2 style="color: var(--primary); clear: both;">Kreye Kont</h2>
-            <input type="text" id="signupUsername" placeholder="Non Itilizatè">
-            <input type="email" id="signupEmail" placeholder="Imèl">
-            <input type="password" id="signupPass" placeholder="Chwazi yon modpas">
-            <button class="btn-main" onclick="registerAccount()">ANREJISTRE</button>
-        </div>
-
-        <!-- FORGOT PASSWORD PAGE -->
+        <!-- 3. FORGOT PASSWORD -->
         <div id="forgotPage" class="page">
-            <button class="btn-back" onclick="showPage('loginPage')">⬅ Fè Bak</button>
-            <h2 style="color: var(--primary); clear: both;">Reyajiste Modpas</h2>
-            <input type="email" id="forgotEmail" placeholder="Imèl ou anrejistre">
-            <input type="password" id="forgotNewPass" placeholder="Nouvo modpas">
-            <input type="password" id="forgotConfirmPass" placeholder="Konfime nouvo modpas">
-            <button class="btn-main" onclick="resetPassword()">VOYE</button>
+            <h2 style="color: var(--primary); text-align:center;">Reyajiste Modpas</h2>
+            <p style="font-size:14px; color:#777; text-align:center;">Antre imèl ou pou n ka voye yon lyen pou w chanje modpas ou.</p>
+            <input type="email" id="forgotEmail" placeholder="Imèl ou">
+            <button class="btn-main" onclick="handleReset()">VOYE LENK</button>
+            <p style="text-align:center; margin-top:20px; color:#999;" onclick="showPage('loginPage')">Retounen dèyè</p>
         </div>
 
-        <!-- TRACKER PAGE -->
+        <!-- 4. SIGNUP -->
+        <div id="signupPage" class="page">
+            <h2 style="color: var(--primary); text-align:center;">Kreye Kont</h2>
+            <input type="email" id="regEmail" placeholder="Imèl">
+            <input type="password" id="regPass" placeholder="Modpas">
+            <button class="btn-main" onclick="handleSignUp()">ANREJISTRE</button>
+            <p style="text-align:center; margin-top:20px; color:#999;" onclick="showPage('loginPage')">Retounen nan Login</p>
+        </div>
+
+        <!-- 5. NAME SETUP -->
+        <div id="namePage" class="page">
+            <h2 style="color: var(--primary); text-align:center;">Ki non ou?</h2>
+            <input type="text" id="nameInput" placeholder="Antre non ou">
+            <button class="btn-main" onclick="saveName()">FINI</button>
+        </div>
+
+        <!-- 6. DASHBOARD -->
         <div id="trackerPage" class="page">
-            <button class="btn-back" onclick="showPage('loginPage')">⬅ Sòti</button>
-            <h1 style="color: var(--primary); clear: both; font-size: 20px; margin-bottom: 15px; text-align: center;">Mwa sa a 🌸</h1>
-            
-            <div id="calendar"></div>
-            <button onclick="clearAll()" style="font-size: 12px; color: #d81b60; border: none; background: none; cursor: pointer; text-decoration: underline; font-weight: 600; display: block; margin: -5px auto 15px;">Efase kalandriye a</button>
-            
-            <!-- --- TWA TI BA NAVIGASYON YO --- -->
-            <div class="tabs-container">
-                <button class="tab-bar active" onclick="switchTab(event, 'tabEdikasyon')">📚 Edikasyon</button>
-                <button class="tab-bar" onclick="switchTab(event, 'tabRobot')">🤖 Poze Kesyon</button>
-                <button class="tab-bar" onclick="switchTab(event, 'tabDonation')">💚 Sipòte n</button>
+            <div class="header">
+                <h3 style="color:var(--primary); margin:0;" id="userTitle">Bonjou! 🌸</h3>
+                <div style="font-size:24px; cursor:pointer;" onclick="openModal('configModal')">⚙️</div>
             </div>
+            <div class="status-card">
+                <div style="font-size:11px; color:#888; font-weight:700;">RÈG RIVE NAN</div>
+                <div class="days-big" id="daysLeft">--</div>
+                <div style="font-size:11px; color:#888; font-weight:700;">JOU</div>
+            </div>
+            <div id="dashResults" style="display:none;">
+                <div class="info-box"><div class="info-title">PWOCHEN RÈG OU</div><div class="info-val" id="dashNextDate">--</div></div>
+            </div>
+            <button class="btn-main" style="background:#311b92; margin-top:25px;" onclick="showPage('calendarPage')">📅 OUVRI KALANDRIYE</button>
+            <button class="btn-main" style="background:#666; margin-top:10px;" onclick="openModal('configModal')">⚙️ SIK MANSYÈL OU</button>
+            <button class="btn-main" style="background:#4caf50; margin-top:10px;" onclick="showPage('donationPage')">💚 SIPÒTE NOU</button>
+        </div>
 
-            <!-- TI BA 1: EDILASYON SEKSYÈL -->
-            <div id="tabEdikasyon" class="tab-content active">
-                <div class="edu-scroll">
-                    <h3>Kijan moun ka tonbe ansent?</h3>
-                    <p>Yo ka tonbe ansent lè espèm antre nan vajen pandan yon rapò seksyèl san pwoteksyon. Espèm la ka travèse matris la pou l jwenn yon òvil pou fekonde l.</p>
-                    <h3>Kisa peryòd ovilasyon ye?</h3>
-                    <p>Ovulasyon se lè yon fanm lage yon òvil. Sa rive an mwayèn 10-16 jou anvan pwochen règ la. Lè ou gen rapò san pwoteksyon nan peryòd sa, chans pou ou vin ansent trè wo.</p>
-                    <h3>Konbyen tan tann apre akouchman natirèl?</h3>
-                    <p>Aprè yon akouchman nòmal, doktè rekòmande tann omwen 6 semèn anvan ou rekòmanse rapò. Si w vle re-ansent, li pi bon pou w tann 12 mwa pou kò w refè nèt.</p>
-                    <h3>Konbyen tan apre sezaryen?</h3>
-                    <p>Aprè yon sezaryen, li rekòmande pou tann ant 18 a 24 mwa anvan w eseye ansent ankò pou bay blesi chirijikal yo tan pou yo byen geri nan matris la.</p>
-                    <h3>Kalite Planin yo</h3>
-                    <ul>
-                        <li><strong>Pi efikas:</strong> IUD (Stérilet), implant, jeneralman piki (Depo-Provera) ak grenn.</li>
-                        <li><strong>Mwayèn efikas:</strong> Kapòt feminen, kapòt maskilen, diaphragm, metòd tanperati.</li>
-                    </ul>
+        <!-- 7. CALENDAR -->
+        <div id="calendarPage" class="page">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; font-weight:700; color:var(--primary);">
+                <button onclick="changeMonth(-1)" style="background:none; border:none; color:var(--primary); font-size:22px;">◀</button>
+                <span id="monthYearText">--</span>
+                <button onclick="changeMonth(1)" style="background:none; border:none; color:var(--primary); font-size:22px;">▶</button>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+            <div id="calendarSummary" style="display:none; margin-top:15px;">
+                <div class="info-box" style="border-left:8px solid var(--primary);"><div id="msgNext" style="font-weight:700; color:var(--primary);">--</div><div id="msgFertile" style="font-size:13px; color:#0288d1; margin-top:5px;">--</div></div>
+            </div>
+        </div>
+
+        <!-- 8. PREGNANCY PAGE -->
+        <div id="pregnancyPage" class="page">
+            <h2 style="color: var(--dark); text-align: center; margin-bottom: 25px;">Swivi Gwosès 🤰</h2>
+            <div id="notPregView" style="text-align: center; padding-top: 40px;">
+                <div style="font-size: 60px; margin-bottom: 20px;">🤰</div>
+                <p>Èske ou ansent? Kòmanse swiv tibebe w la.</p>
+                <button class="btn-main" onclick="openModal('pregSetupModal')">WI, MWEN ANSENT!</button>
+            </div>
+            <div id="pregDashboard" style="display: none; text-align: center;">
+                <div style="font-size:70px;" id="pregFruit">🍓</div>
+                <h3 id="pregWeekTitle" style="color: var(--primary); margin:0;">Semèn --</h3>
+                <h4 id="pregMonthTitle" style="color: #666; margin:5px 0;">Mwa --</h4>
+                <p id="pregComparison" style="font-size:14px; color:#555;">--</p>
+                <div class="progress-container"><div id="pregProgressBar" class="progress-bar-fill"></div></div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                    <div class="info-box"><div class="info-title">AKOUCHMAN</div><div class="info-val" id="dueDateVal" style="font-size:13px;">--</div></div>
+                    <div class="info-box"><div class="info-title">KI RETE</div><div class="info-val" id="daysRemVal" style="font-size:13px;">--</div></div>
                 </div>
-            </div>
-
-            <!-- TI BA 2: BOUTON AK BWAT ENTEÈLIJAN (CHATBOT) -->
-            <div id="tabRobot" class="tab-content">
-                <div class="chat-container">
-                    <p style="font-size: 13px; color: #555; margin: 0 0 5px 0;">Poze m nenpòt kesyon sou kò w oswa sou lasante (eg: <i>Mwen gen reta règ, kisa planin fè, mwen gen gwo doulè vant...</i>)</p>
-                    <textarea id="botQueryInput" rows="2" placeholder="Tape kesyon ou an kreyòl la a..."></textarea>
-                    <button class="btn-main" style="background: #4a148c; box-shadow: 0 5px 15px rgba(74, 20, 140, 0.3);" onclick="askPurecoveBot()">MANDE ROBÒT LA</button>
-                    
-                    <div id="botResponseBox" class="ai-box"></div>
+                <div class="tool-card">
+                    <h4>Tibebe a bouje? 👣</h4>
+                    <div style="font-size:30px; font-weight:800; color:var(--primary);" id="kickCount">0</div>
+                    <button class="btn-main" style="width:60px; height:60px; border-radius:50%; margin:10px auto;" onclick="addKick()">👣</button>
                 </div>
-            </div>
-
-            <!-- TI BA 3: DONATION (CASHAPP AK ZELLE) -->
-            <div id="tabDonation" class="tab-content">
-                <div class="payment-card">
-                    <p style="font-weight:700; font-size:14px; color: var(--primary); margin-top: 0;">Sipòte Diego Felix pou pwojè sa a 💚</p>
-                    <p style="font-size: 12px; color: #555; margin-bottom: 15px;">Èd ou ap pèmèt nou kontinye devlope aplikasyon an pi byen toujou.</p>
-                    <a href="https://cash.app/$felixdiegobenius" target="_blank" class="payment-btn" style="background:#00d632">💸 CashApp ($felixdiegobenius)</a>
-                    <div class="payment-btn" style="background:#673ab7">💜 Zelle: felixdiegobenius@gmail.com</div>
+                <div class="tool-card">
+                    <h4>Kontraksyon ⏱️</h4>
+                    <div id="contraTimer" style="font-size:22px; font-weight:700; color:red; display:none;">00:00</div>
+                    <button id="btnStartC" class="btn-main" style="background:green;" onclick="startContra()">KÒMANSE</button>
+                    <button id="btnStopC" class="btn-main" style="background:red; display:none;" onclick="stopContra()">STOP</button>
+                    <div class="contra-log" id="contraLog">Okenn.</div>
                 </div>
+                <div class="tool-card">
+                    <h4>Sentòm 🌡️</h4>
+                    <input type="text" id="symptomIn" placeholder="Kisa w santi?">
+                    <button class="btn-main" onclick="addSymptom()">ANREJISTRE</button>
+                    <div id="symptomList" style="margin-top:10px;"></div>
+                </div>
+                <button class="btn-main" style="background:#eee; color:#999; margin-top:15px;" onclick="stopPregnancy()">SISPANN SWIVI</button>
+                <div style="height: 80px;"></div>
             </div>
+        </div>
 
+        <!-- 9. ROBOT PAGE -->
+        <div id="robotPage" class="page">
+            <h2 style="text-align:center; color:var(--primary);">Asistan AI 🤖</h2>
+            <textarea id="botIn" rows="3" style="width:100%; border-radius:15px; padding:15px; border:1px solid #eee; resize:none;" placeholder="Poze m nenpòt kesyon..."></textarea>
+            <button class="btn-main" style="background:var(--dark);" onclick="askBot()">MANDE ROBÒT LA</button>
+            <div id="botRes" style="background:#f3e5f5; padding:15px; border-radius:15px; margin-top:20px; display:none; font-size:14px;"></div>
+        </div>
+
+        <!-- 10. DONATION PAGE -->
+        <div id="donationPage" class="page">
+            <h2 style="text-align:center; color:#4caf50;">Sipòte n 💚</h2>
+            <div class="status-card" style="text-align:left;">
+                <p>Èd ou ap pèmèt nou kontinye devlope Purecove pou ede plis medam an Ayiti.</p>
+                <p><b>💸 Cash App:</b> $felixdiegobenius</p>
+                <p><b>💜 Zelle:</b> felixdiegobenius@gmail.com</p>
+                <button class="btn-main" onclick="showPage('trackerPage')">RETOUNEN</button>
+            </div>
+        </div>
+
+        <!-- MODALS -->
+        <div id="configModal" class="modal"><div class="modal-box"><h3>Sik Mansyèl</h3><input type="number" id="cycleInput" value="28"><button class="btn-main" onclick="saveConfig()">SOVE</button><p onclick="closeModal('configModal')" style="cursor:pointer; margin-top:15px; color:#ccc;">Anile</p></div></div>
+        <div id="pregSetupModal" class="modal"><div class="modal-box"><h3>Konfigirasyon</h3><p>Ki dat ou te gen dènye règ ou?</p><input type="date" id="pregDateIn"><button class="btn-main" onclick="savePregnancy()">KÒMANSE</button><p onclick="closeModal('pregSetupModal')" style="cursor:pointer; margin-top:15px; color:#ccc;">Anile</p></div></div>
+        <div id="actionModal" class="modal"><div class="modal-box"><h3 id="modalDate">--</h3><button class="btn-main" style="background:#b71c1c;" onclick="markAction('blood')">🩸 MAKE RÈG</button><button class="btn-main" style="background:#f06292;" onclick="markAction('sex')">💖 MAKE SÈKS</button><button class="btn-main" style="background:#eee; color:#666;" onclick="markAction('clear')">✕ RETIRE</button><p onclick="closeModal('actionModal')" style="cursor:pointer; margin-top:15px; color:#ccc;">Anile</p></div></div>
+
+        <div id="bottomNav">
+            <div class="nav-btn" id="btnH" onclick="showPage('trackerPage')">🏠</div>
+            <div class="nav-btn" id="btnC" onclick="showPage('calendarPage')">📅</div>
+            <div class="nav-btn" id="btnP" onclick="showPage('pregnancyPage')">🤰</div>
+            <div class="nav-btn" id="btnE" onclick="showPage('robotPage')">🤖</div>
         </div>
     </div>
 
-    <!-- KEYPAD MODAL -->
-    <div id="customKeypad">
-        <p style="font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 20px;">Opsyon Dat</p>
-        <div class="keypad-grid">
-            <button class="key-btn save" onclick="confirmDateAction()">❤️</button>
-            <button class="key-btn close" onclick="closeKeypad()">✕</button>
-            <button class="key-btn" style="font-size: 14px;" onclick="clearAll(); closeKeypad();">CLR</button>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
     <script>
-        let calendar;
+        let bloodDates = JSON.parse(localStorage.getItem('pb_v4')) || [];
+        let sexDates = JSON.parse(localStorage.getItem('ps_v4')) || [];
+        let cycleLen = parseInt(localStorage.getItem('pc_v4')) || 28;
+        let userName = localStorage.getItem('pn_v4') || "";
+        let pregDate = localStorage.getItem('pp_v4') || null;
+        let kicks = parseInt(localStorage.getItem('pk_v4')) || 0;
+        let contraLog = JSON.parse(localStorage.getItem('cl_v4')) || [];
+        let symptoms = JSON.parse(localStorage.getItem('sy_v4')) || [];
+        let currentViewDate = new Date();
         let selectedDateStr = "";
-        let periodDates = JSON.parse(localStorage.getItem('purecove_pèmanan_dates')) || [];
+        let cStart = null; let tInt = null;
 
-        const defaultCredentials = { username: 'purecove', password: '1234', email: 'purecove@app.com' };
+        function startApp() { document.getElementById('welcomePage').style.display='none'; if(userName) showPage('trackerPage'); else showPage('loginPage'); }
+        function saveName() { userName = document.getElementById('nameInput').value.trim(); if(userName) { localStorage.setItem('pn_v4', userName); showPage('trackerPage'); } }
+        function handleLogin() { loginSuccess(); }
+        function handleSignUp() { showPage('loginPage'); }
+        function handleReset() { const e = document.getElementById('forgotEmail').value; if(e) { if(typeof Android !== "undefined") Android.resetPassword(e); else alert("Lyen voye nan: " + e); showPage('loginPage'); } }
+        function loginSuccess() { if(!userName) showPage('namePage'); else showPage('trackerPage'); }
+        function openModal(id) { document.getElementById(id).style.display='flex'; }
+        function closeModal(id) { document.getElementById(id).style.display='none'; }
+        function saveConfig() { cycleLen = parseInt(document.getElementById('cycleInput').value) || 28; localStorage.setItem('pc_v4', cycleLen); closeModal('configModal'); updateIntelligence(); renderCalendar(); }
 
-        function getSavedCredentials() {
-            return JSON.parse(localStorage.getItem('purecove_credentials')) || defaultCredentials;
-        }
-
-        function saveCredentials(credentials) {
-            localStorage.setItem('purecove_credentials', JSON.stringify(credentials));
-        }
-
-        function validateLogin() {
-            const u = document.getElementById('loginUser').value.trim();
-            const p = document.getElementById('loginPass').value.trim();
-            const saved = getSavedCredentials();
-            const normalizedUser = u.toLowerCase();
-            const userMatches = normalizedUser === saved.username.toLowerCase() || normalizedUser === saved.email.toLowerCase();
-            
-            if (u === "" || p === "") {
-                alert("Tanpri ranpli tout bwat yo!");
-            } else if (!userMatches || p !== saved.password) {
-                alert("Itilizatè, imèl oswa modpas pa kòrèk. Eseye ankò.");
-            } else {
-                showPage('trackerPage');
-            }
-        }
-
-        function registerAccount() {
-            const username = document.getElementById('signupUsername').value.trim();
-            const email = document.getElementById('signupEmail').value.trim().toLowerCase();
-            const pass = document.getElementById('signupPass').value.trim();
-            if (username === "" || email === "" || pass === "") {
-                alert("Tanpri ranpli tout enfòmasyon yo pou kreye kont lan.");
-                return;
-            }
-            saveCredentials({ username, password: pass, email });
-            alert('Kont ou kreye avèk siksè! Kounye a ou ka konekte.');
-            document.getElementById('signupUsername').value = '';
-            document.getElementById('signupEmail').value = '';
-            document.getElementById('signupPass').value = '';
-            showPage('loginPage');
-        }
-
-        function resetPassword() {
-            const email = document.getElementById('forgotEmail').value.trim();
-            const newPass = document.getElementById('forgotNewPass').value.trim();
-            const confirmPass = document.getElementById('forgotConfirmPass').value.trim();
-            const saved = getSavedCredentials();
-
-            if (email === "" || newPass === "" || confirmPass === "") {
-                alert('Tanpri ranpli tout chan yo.');
-                return;
-            }
-            if (email !== saved.email) {
-                alert('Imèl sa a pa koresponn ak kont anrejistre a.');
-                return;
-            }
-            if (newPass !== confirmPass) {
-                alert('Modpas yo pa matche.');
-                return;
-            }
-
-            saveCredentials({ username: saved.username, password: newPass, email: saved.email });
-            alert('Modpas la chanje avèk siksè! Kounye a ou ka konekte ak nouvo modpas la.');
-            document.getElementById('forgotEmail').value = '';
-            document.getElementById('forgotNewPass').value = '';
-            document.getElementById('forgotConfirmPass').value = '';
-            showPage('loginPage');
-        }
-
-        function showPage(pageId) {
+        function showPage(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            if(pageId === 'trackerPage' && calendar) {
-                setTimeout(() => { calendar.render(); refreshCalendar(); }, 200);
-            }
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            const target = document.getElementById(id); if(target) target.classList.add('active');
+            const isInside = ['trackerPage', 'calendarPage', 'namePage', 'pregnancyPage', 'robotPage', 'donationPage'].includes(id);
+            document.getElementById('bottomNav').style.display = (isInside && id !== 'namePage') ? 'flex' : 'none';
+            if(id === 'trackerPage') { document.getElementById('btnH').classList.add('active'); updateIntelligence(); }
+            if(id === 'calendarPage') { document.getElementById('btnC').classList.add('active'); renderCalendar(); }
+            if(id === 'pregnancyPage') { document.getElementById('btnP').classList.add('active'); updatePregUI(); }
+            if(id === 'robotPage') { document.getElementById('btnE').classList.add('active'); }
         }
 
-        /* FONKSYON POU CHANJE TI BA YO (TABS) */
-        function switchTab(evt, tabId) {
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            document.querySelectorAll('.tab-bar').forEach(tab => tab.classList.remove('active'));
-            
-            document.getElementById(tabId).classList.add('active');
-            evt.currentTarget.classList.add('active');
+        function updateIntelligence() {
+            document.getElementById('userTitle').innerText = "Bonjou, " + userName + "! 🌸";
+            if(bloodDates.length === 0) return;
+            const last = new Date([...bloodDates].sort((a,b) => b.localeCompare(a))[0] + "T00:00:00");
+            const next = new Date(last); next.setDate(next.getDate() + cycleLen);
+            const diff = Math.ceil((next - new Date().setHours(0,0,0,0)) / (1000*60*60*24));
+            document.getElementById('daysLeft').innerText = diff > 0 ? diff : 0;
+            document.getElementById('dashNextDate').innerText = next.toLocaleDateString('ht', {day:'numeric', month:'long'});
+            document.getElementById('dashResults').style.display = 'block';
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            if (calendarEl) {
-                calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth',
-                    locale: 'ht',
-                    headerToolbar: { left: 'prev', center: 'title', right: 'next' },
-                    height: 'auto',
-                    showNonCurrentDates: false, 
-                    dateClick: function(info) {
-                        selectedDateStr = info.dateStr;
-                        openKeypad();
-                    }
-                });
-            }
-        });
-
-        function openKeypad() { document.getElementById('customKeypad').style.display = 'block'; }
-        function closeKeypad() { document.getElementById('customKeypad').style.display = 'none'; }
-        
-        function confirmDateAction() {
-            toggleDate(selectedDateStr);
-            closeKeypad();
-        }
-
-        function toggleDate(dateStr) {
-            const index = periodDates.indexOf(dateStr);
-            if (index === -1) { periodDates.push(dateStr); } 
-            else { periodDates.splice(index, 1); }
-            localStorage.setItem('purecove_pèmanan_dates', JSON.stringify(periodDates));
-            refreshCalendar();
-        }
-
-        function refreshCalendar() {
-            if(!calendar) return;
-            calendar.removeAllEvents();
-            periodDates.forEach(date => {
-                calendar.addEvent({ start: date, display: 'background', className: 'period-heart' });
-            });
-            if(periodDates.length > 0) {
-                const sorted = [...periodDates].sort((a, b) => new Date(b) - new Date(a));
-                const lastDate = new Date(sorted[0]);
-                let ovuStart = new Date(lastDate);
-                ovuStart.setDate(ovuStart.getDate() + 13);
-                for (let i = 0; i < 3; i++) {
-                    let d = new Date(ovuStart);
-                    d.setDate(d.getDate() + i);
-                    calendar.addEvent({ start: d.toISOString().split('T')[0], display: 'background', className: 'ovulation-circle' });
+        function renderCalendar() {
+            const grid = document.getElementById('calendarGrid'); grid.innerHTML = "";
+            document.getElementById('monthYearText').innerText = currentViewDate.toLocaleDateString('ht', {month:'long', year:'numeric'});
+            ["Dim", "Len", "Mad", "Mèk", "Jid", "Van", "Sam"].forEach(d => { const div = document.createElement('div'); div.className='day-name'; div.innerText=d; grid.appendChild(div); });
+            const first = new Date(currentViewDate.getFullYear(), currentViewDate.getMonth(), 1);
+            const last = new Date(currentViewDate.getFullYear(), currentViewDate.getMonth() + 1, 0);
+            for(let i=0; i<first.getDay(); i++) grid.appendChild(document.createElement('div')).className='calendar-day other-month';
+            const prefix = currentViewDate.getFullYear() + '-' + String(currentViewDate.getMonth() + 1).padStart(2, '0');
+            const hasData = bloodDates.some(d => d.startsWith(prefix));
+            document.getElementById('calendarSummary').style.display = hasData ? 'block' : 'none';
+            for(let d=1; d<=last.getDate(); d++) {
+                const ds = prefix + '-' + String(d).padStart(2, '0');
+                const div = document.createElement('div'); div.className='calendar-day';
+                div.onclick = () => { selectedDateStr = ds; document.getElementById('modalDate').innerText = new Date(ds + "T00:00:00").toLocaleDateString('ht', {day:'numeric', month:'long'}); openModal('actionModal'); };
+                let isF = false;
+                if(hasData) {
+                    const fM = new Date(bloodDates.filter(d => d.startsWith(prefix)).sort()[0] + "T00:00:00");
+                    const nP = new Date(fM); nP.setDate(nP.getDate() + cycleLen);
+                    const o = new Date(nP); o.setDate(o.getDate() - 14);
+                    for(let i=-4; i<=1; i++) { let f = new Date(o); f.setDate(f.getDate() + i); if(f.toISOString().split('T')[0] === ds) isF = true; }
+                    if(isF) { document.getElementById('msgNext').innerText = "🌸 Pwochen règ: " + nP.toLocaleDateString('ht', {day:'numeric', month:'long'}); document.getElementById('msgFertile').innerText = "💧 Jou Fètil: " + new Date(o.getTime()-259200000).toLocaleDateString('ht', {day:'numeric', month:'short'}) + " - " + new Date(o.getTime()+172800000).toLocaleDateString('ht', {day:'numeric', month:'short'}); }
                 }
+                const icon = (bloodDates.includes(ds)) ? '🩸' : (sexDates.includes(ds) ? '💖' : (isF ? '💧' : ''));
+                div.innerHTML = `<span class="day-num">${d}</span><span class="day-icon">${icon}</span>`; grid.appendChild(div);
             }
         }
+        function markAction(t) { bloodDates = bloodDates.filter(d=>d!==selectedDateStr); sexDates = sexDates.filter(d=>d!==selectedDateStr); if(t==='blood') bloodDates.push(selectedDateStr); if(t==='sex') sexDates.push(selectedDateStr); localStorage.setItem('pb_v4', JSON.stringify(bloodDates)); localStorage.setItem('ps_v4', JSON.stringify(sexDates)); closeModal('actionModal'); renderCalendar(); }
+        function changeMonth(d) { currentViewDate.setMonth(currentViewDate.getMonth() + d); renderCalendar(); }
+        function savePregnancy() { const d = document.getElementById('pregDateIn').value; if(d) { localStorage.setItem('pp_v4', d); pregDate = d; closeModal('pregSetupModal'); updatePregUI(); } }
+        function stopPregnancy() { if(confirm("Sispann?")) { localStorage.removeItem('pp_v4'); pregDate=null; updatePregUI(); } }
+        function addKick() { kicks++; localStorage.setItem('pk_v4', kicks); document.getElementById('kickCount').innerText = kicks; }
+        function startContra() { cStart = new Date(); document.getElementById('btnStartC').style.display='none'; document.getElementById('btnStopC').style.display='block'; document.getElementById('contraTimer').style.display='block'; tInt = setInterval(() => { const diff = Math.floor((new Date()-cStart)/1000); document.getElementById('contraTimer').innerText = String(Math.floor(diff/60)).padStart(2,'0')+":"+String(diff%60).padStart(2,'0'); },1000); }
+        function stopContra() { clearInterval(tInt); const dur = Math.floor((new Date()-cStart)/1000); let ds = dur+" seg"; if(dur>=60) ds = Math.floor(dur/60)+" min, "+(dur%60)+" seg"; contraLog.unshift(cStart.toLocaleTimeString('ht',{hour:'2-digit',minute:'2-digit'})+" ("+ds+")"); localStorage.setItem('cl_v4', JSON.stringify(contraLog)); document.getElementById('btnStartC').style.display='block'; document.getElementById('btnStopC').style.display='none'; document.getElementById('contraTimer').style.display='none'; updatePregUI(); }
+        function addSymptom() { const v = document.getElementById('symptomIn').value; if(v) { symptoms.unshift({id:Date.now(), t:v, d:new Date().toLocaleDateString('ht',{day:'numeric',month:'short'})}); localStorage.setItem('sy_v4', JSON.stringify(symptoms)); document.getElementById('symptomIn').value=""; updatePregUI(); } }
+        function delSymptom(id) { symptoms = symptoms.filter(s=>s.id!==id); localStorage.setItem('sy_v4', JSON.stringify(symptoms)); updatePregUI(); }
+        function askBot() { const q = document.getElementById('botIn').value.toLowerCase(); const b = document.getElementById('botRes'); let r = "Mwen se asistan Purecove ou."; if(q.includes("ansent")) r = "Pou w ansent, espèm dwe rankontre òvil la nan jou fètil yo (💧)."; if(q.includes("doulè")) r = "Doulè règ nòmal, men si l fò anpil, wè yon doktè."; b.innerHTML = "<b>🤖 AI:</b> "+r; b.style.display="block"; }
 
-        function clearAll() {
-            if(confirm("Èske ou sèten ou vle efase tout istorik dat ou yo nèt?")) {
-                periodDates = [];
-                localStorage.removeItem('purecove_pèmanan_dates');
-                if(calendar) {
-                    refreshCalendar();
-                }
-                alert("Done yo efase avèk siksè!");
-            }
-        }
-
-        /* --- FONKSYON POU ROBÒT LA KLIYE LOGIK REPONS LI --- */
-        function clearBotResponse() {
-            const responseBox = document.getElementById('botResponseBox');
-            const inputField = document.getElementById('botQueryInput');
-            responseBox.innerHTML = "";
-            responseBox.style.display = "none";
-            inputField.value = "";
-            inputField.focus();
-        }
-
-        /* --- ROBÒT ENTÈLIJAN KI REPONN KESYON SOU SANTE (AMELYORE) --- */
-        function askPurecoveBot() {
-            const input = document.getElementById('botQueryInput').value.trim().toLowerCase();
-            const responseBox = document.getElementById('botResponseBox');
-            
-            if(input === "") {
-                alert("Tanpri poze yon kesyon anvan pou robòt la ka reponn ou.");
-                return;
-            }
-
-            let responseText = "";
-
-            // Lojik la chèche mo kle yo menm si yo nan mitan yon long fraz
-            const genAnsent = input.includes("ansent") || input.includes("gwo vant") || input.includes("konsepsyon") || input.includes("fe pitit");
-            const genPlanin = input.includes("planin") || input.includes("kontrasepsyon") || input.includes("enplant") || input.includes("stérilet") || input.includes("piki") || input.includes("grenn");
-            const genOvilasyon = input.includes("obilasyon") || input.includes("ovilasyon") || input.includes("fètil") || input.includes("fertil");
-            const genReta = input.includes("reta") || input.includes("pa vini") || input.includes("pa we reg") || input.includes("pa wè règ") || input.includes("mwa sa a m pa");
-            const genDoulere = input.includes("doulè") || input.includes("doule") || input.includes("kranp") || input.includes("mal vant") || input.includes("anba vant");
-            const genGrate = input.includes("gratèl") || input.includes("gratel") || input.includes("demanjezon") || input.includes("grate") || input.includes("pèdi likid") || input.includes("likid");
-            const genSezaryen = input.includes("sezaryen") || input.includes("akouchman") || input.includes("pepete") || input.includes("fouche");
-
-            if (genAnsent) {
-                responseText = "<b>🤖 Purecove AI:</b> Yon moun ka tonbe ansent lè gen yon rapò seksyèl san pwoteksyon kote espèm nan antre nan vajen epi li jwenn yon òvil pandan peryòd ovilasyon an. Si w pa vle ansent, li enpòtan pou w itilize kapòt oswa yon lòt planin kòrèkteman.";
-            } 
-            else if (genPlanin) {
-                responseText = "<b>🤖 Purecove AI:</b> Planin ede anpeche gwosès vle. Gen planin òmònèl (grenn, piki, enplant) ak planin san òmòn (stérilet an kwiv, kapòt). Planin òmònèl yo ka chanje fason règ ou vini oswa ba w ti efè segondè, men yo trè efikas si w swiv yo byen.";
-            } 
-            else if (genOvilasyon) {
-                responseText = "<b>🤖 Purecove AI:</b> Ovulasyon an se lè kò a lage yon òvil pou fekondasyon. Li fèt an mwayèn 14 jou anvan pwochen règ ou a kòmanse. Se peryòd kote yon fanm gen plis chans pou l tonbe ansent si li fè rapò san pwoteksyon.";
-            } 
-            else if (genReta) {
-                responseText = "<b>🤖 Purecove AI:</b> Yon reta règ ka rive akòz estrès, gwo fatig, chanjman nan pwa kò w, oswa si w gen yon deregleman òmònèl. Men, si w te gen rapò san pwoteksyon, li ka yon premye siy gwosès. Li ta bon pou w fè yon tès gwosès apre 5 a 7 jou reta.";
-            } 
-            else if (genDoulere) {
-                responseText = "<b>🤖 Purecove AI:</b> Doulè anba vant oswa kranp souvan lye ak règ ou k ap vini (dismenore) oswa ovilasyon nan mitan mwa a. Ou ka mete yon konprès cho sou vant ou oswa bwè yon te cho. Si doulè a twò fò epi li pa ka pase, konsilte yon doktè.";
-            }
-            else if (genGrate) {
-                responseText = "<b>🤖 Purecove AI:</b> Gratèl, demanjezon, oswa likid etranj nan pati sekrè ka siy yon enfeksyon (tankou kandida oswa bakteri). Evite mete rad sere, pa lave anndan vajen an ak savon pafen, epi konsilte yon pwofesyonèl sante si sa pèsiste.";
-            }
-            else if (genSezaryen) {
-                responseText = "<b>🤖 Purecove AI:</b> Apre yon akouchman natirèl, li bon pou w tann 6 semèn pou w rekòmanse rapò epi 12 mwa pou yon lòt gwosès. Si se te sezaryen, doktè rekòmande tann 18 a 24 mwa pou matris la gen tan byen geri nèt.";
-            } 
-            else {
-                responseText = "<b>🤖 Purecove AI:</b> Mwen resevwa kesyon w lan sou lasante! Kòm mwen se yon ti robòt k ap aprann, mwen rekòmande w veye kò w byen. Si se pou yon doulè oswa yon gwo pwoblèm sante, li toujou pi bon pou w konsilte yon doktè oswa yon pwofesyonèl medikal.";
-            }
-
-            // Ajoute bouton pou efase repons lan anba tèks la
-            responseText += "<br><br><button class='btn-clear-ai' onclick='clearBotResponse()'>✕ Retire repons sa a</button>";
-
-            responseBox.innerHTML = responseText;
-            responseBox.style.display = "block";
+        function updatePregUI() {
+            const nv = document.getElementById('notPregView'); const pd = document.getElementById('pregDashboard');
+            if(!pregDate) { nv.style.display='block'; pd.style.display='none'; return; }
+            nv.style.display='none'; pd.style.display='block';
+            document.getElementById('kickCount').innerText = kicks;
+            document.getElementById('contraLog').innerHTML = contraLog.length ? contraLog.map(t=>"⚠️ <b>"+t+"</b>").join("<br>") : "Okenn.";
+            document.getElementById('symptomList').innerHTML = symptoms.map(s=>`<div class="symptom-item"><span><b>${s.d}:</b> ${s.t}</span><button class="btn-del" onclick="delSymptom(${s.id})">×</button></div>`).join("");
+            const diff = Math.floor((new Date()-new Date(pregDate+"T00:00:00"))/(1000*60*60*24*7))+1;
+            const w = diff < 1 ? 1 : (diff > 42 ? 42 : diff);
+            let m = 1; if(w>=5) m=2; if(w>=9) m=3; if(w>=14) m=4; if(w>=18) m=5; if(w>=23) m=6; if(w>=28) m=7; if(w>=32) m=8; if(w>=36) m=9;
+            const due = new Date(new Date(pregDate+"T00:00:00").getTime()+24192000000);
+            document.getElementById('pregWeekTitle').innerText = "Semèn "+w; document.getElementById('pregMonthTitle').innerText = "Mwa "+m;
+            document.getElementById('dueDateVal').innerText = due.toLocaleDateString('ht',{day:'numeric',month:'long',year:'numeric'});
+            document.getElementById('daysRemVal').innerText = Math.ceil((due - new Date())/(1000*60*60*24))+" jou";
+            document.getElementById('pregProgressBar').style.width = (w/40*100)+"%";
+            let f = "🍍"; let c = "Tibebe a gwo tankou yon Anana 🍍";
+            if(w<9) { f="🍓"; c="Tibebe a gwo tankou yon Grann Friz 🍓"; } else if(w<14) { f="🍋"; c="Tibebe a gwo tankou yon Grenn Sitwon 🍋"; }
+            document.getElementById('pregFruit').innerText = f; document.getElementById('pregComparison').innerText = c;
         }
     </script>
 </body>
