@@ -13,55 +13,52 @@
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* WELCOME SCREEN STYLE */
-        #welcomePage { text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(135deg, #f06292, #d81b60); color: white; height: 100vh; width: 100%; position: absolute; top: 0; left: 0; z-index: 9999; transition: 0.5s; }
-        #welcomePage.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
+        /* --- WELCOME PAGE STYLE --- */
+        #welcomePage { text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(135deg, #f06292, #d81b60); color: white; height: 100vh; width: 100%; position: absolute; top: 0; left: 0; z-index: 9999; }
         .logo-circle { width: 120px; height: 120px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 60px; margin-bottom: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .btn-white { background: white; color: var(--primary); border: none; padding: 18px 60px; border-radius: 35px; font-weight: 700; cursor: pointer; font-size: 17px; }
 
         /* FORMS & BUTTONS */
         input { width: 100%; padding: 16px; margin: 12px 0; border: 1px solid #eee; border-radius: 15px; background: #f9f9f9; font-size: 15px; outline: none; box-sizing: border-box; }
         .btn-main { background: var(--primary); color: white; border: none; padding: 18px; width: 100%; border-radius: 15px; font-weight: 700; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        .btn-red { background: #f44336; color: white; border: none; padding: 10px; width: 100%; border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 12px; margin-top: 10px; }
 
-        /* DASHBOARD */
-        .status-card { background: linear-gradient(135deg, #ffffff, #fff0f5); border-radius: 30px; padding: 30px 20px; text-align: center; box-shadow: 0 10px 25px rgba(216, 27, 96, 0.08); margin: 20px 0; border: 1px solid #fce4ec; }
+        .status-card { background: linear-gradient(135deg, #ffffff, #fff0f5); border-radius: 30px; padding: 30px 20px; text-align: center; box-shadow: 0 10px 25px rgba(216, 27, 96, 0.08); margin: 15px 0; border: 1px solid #fce4ec; }
         .days-big { font-size: 56px; font-weight: 800; color: var(--primary); line-height: 1; }
         .info-box { background: white; border-radius: 20px; padding: 15px; margin-top: 12px; border: 1px solid #f1f1f1; text-align: left; }
-        .info-title { font-size: 11px; color: #aaa; font-weight: 700; text-transform: uppercase; }
-        .info-val { font-size: 15px; font-weight: 700; color: #333; margin-top: 3px; }
 
         /* CALENDAR */
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
         .day-name { text-align: center; font-size: 11px; color: #bbb; font-weight: 700; padding-bottom: 8px; }
         .calendar-day { background: #fff; border: 1px solid #f5f5f5; border-radius: 12px; height: 62px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; position: relative; transition: 0.2s; }
-        .day-num { font-size: 14px; font-weight: 700; color: #444; }
+        .day-num { font-size: 14px; font-weight: 700; }
         .day-icon { font-size: 18px; height: 20px; line-height: 1; }
         .is-selected { background: #fff0f5 !important; border-color: var(--primary) !important; }
-        .other-month { opacity: 0.1; pointer-events: none; }
 
         /* TOOLS STYLE */
-        .tool-card { background: #f9f9f9; padding: 20px; border-radius: 25px; margin-top: 20px; text-align: center; border: 1px solid #eee; }
-        .contra-log { text-align: left; margin-top: 15px; font-size: 13px; max-height: 150px; overflow-y: auto; background: white; padding: 10px; border-radius: 10px; }
-        .symptom-item { display: flex; justify-content: space-between; align-items: center; background: white; padding: 10px 15px; border-radius: 15px; margin-bottom: 8px; font-size: 14px; border: 1px solid #f0f0f0; }
-        .btn-del { background: none; border: none; color: #ff5252; font-weight: 800; cursor: pointer; font-size: 18px; }
+        .tool-card { background: #f9f9f9; padding: 15px; border-radius: 25px; margin-top: 15px; text-align: center; border: 1px solid #eee; }
+        .history-log { text-align: left; font-size: 13px; max-height: 120px; overflow-y: auto; background: white; padding: 10px; border-radius: 10px; margin-top: 10px; border: 1px solid #f0f0f0; }
+        .mood-btn { font-size: 32px; cursor: pointer; padding: 10px; transition: 0.2s; }
+        .mood-btn:active { transform: scale(0.8); }
+        .reminder-item { display: flex; justify-content: space-between; background: white; padding: 10px; border-radius: 10px; margin-bottom: 5px; border-left: 4px solid var(--primary); font-size: 13px; text-align: left; }
 
         /* BOTTOM NAV */
         #bottomNav { display: none; position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 450px; background: white; justify-content: space-around; padding: 15px 0; border-top: 1px solid #f0f0f0; z-index: 1000; }
         .nav-btn { font-size: 24px; color: #ddd; cursor: pointer; }
         .nav-btn.active { color: var(--primary); }
 
-        /* MODALS */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; justify-content: center; align-items: center; }
         .modal-box { background: white; padding: 30px; border-radius: 30px; width: 85%; max-width: 350px; text-align: center; }
     </style>
 </head>
 <body>
+
     <div class="container">
         <!-- 1. WELCOME PAGE -->
         <div id="welcomePage">
             <div class="logo-circle">🌸</div>
-            <h1 style="font-size: 40px; font-weight: 800; margin: 0;">Purecove</h1>
-            <p style="font-size: 18px; opacity: 0.95; margin: 10px 0 40px 0;">Tracker Peryòd ki pi senp lan</p>
+            <h1 style="font-size: 36px; font-weight: 800; margin: 0;">Purecove</h1>
+            <p style="font-size: 17px; opacity: 0.9; margin: 10px 0 40px 0;">Tracker Peryòd ki pi senp lan</p>
             <button class="btn-white" onclick="startApp()">KONTINYE</button>
         </div>
 
@@ -75,7 +72,7 @@
             <p style="text-align:center; margin-top:15px; color:#999;" onclick="showPage('signupPage')">Ou pa gen kont? <b>Kreye yonn</b></p>
         </div>
 
-        <!-- 3. FORGOT PASSWORD -->
+        <!-- 3. FORGOT PASS -->
         <div id="forgotPage" class="page">
             <h2 style="color: var(--primary); text-align:center;">Reyajiste Modpas</h2>
             <p style="font-size:14px; color:#777; text-align:center;">Antre imèl ou pou n ka voye yon lyen pou w chanje modpas ou.</p>
@@ -112,80 +109,99 @@
                 <div style="font-size:11px; color:#888; font-weight:700;">JOU</div>
             </div>
             <div id="dashResults" style="display:none;">
-                <div class="info-box"><div class="info-title">PWOCHEN RÈG OU</div><div class="info-val" id="dashNextDate">--</div></div>
+                <div class="info-box"><div class="info-title">PWOCHEN RÈG OU</div><div id="dashNextDate" style="font-weight:700;">--</div></div>
             </div>
             <button class="btn-main" style="background:#311b92; margin-top:25px;" onclick="showPage('calendarPage')">📅 OUVRI KALANDRIYE</button>
-            <button class="btn-main" style="background:#666; margin-top:10px;" onclick="openModal('configModal')">⚙️ SIK MANSYÈL OU</button>
             <button class="btn-main" style="background:#4caf50; margin-top:10px;" onclick="showPage('donationPage')">💚 SIPÒTE NOU</button>
         </div>
 
         <!-- 7. CALENDAR -->
         <div id="calendarPage" class="page">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; font-weight:700; color:var(--primary);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; font-weight:700;">
                 <button onclick="changeMonth(-1)" style="background:none; border:none; color:var(--primary); font-size:22px;">◀</button>
                 <span id="monthYearText">--</span>
                 <button onclick="changeMonth(1)" style="background:none; border:none; color:var(--primary); font-size:22px;">▶</button>
             </div>
-            <div class="calendar-grid" id="calendarGrid"></div>
+            <div id="calendarGrid" class="calendar-grid"></div>
             <div id="calendarSummary" style="display:none; margin-top:15px;">
-                <div class="info-box" style="border-left:8px solid var(--primary);"><div id="msgNext" style="font-weight:700; color:var(--primary);">--</div><div id="msgFertile" style="font-size:13px; color:#0288d1; margin-top:5px;">--</div></div>
+                <div class="info-box" style="border-left:8px solid var(--primary);">
+                    <div id="msgNext" style="font-weight:700; color:var(--primary);">--</div>
+                    <div id="msgFertile" style="font-size:13px; color:var(--blue); margin-top:5px; font-weight:600;">--</div>
+                </div>
             </div>
         </div>
 
         <!-- 8. PREGNANCY PAGE -->
         <div id="pregnancyPage" class="page">
-            <h2 style="color: var(--dark); text-align: center; margin-bottom: 25px;">Swivi Gwosès 🤰</h2>
-            <div id="notPregView" style="text-align: center; padding-top: 40px;">
-                <div style="font-size: 60px; margin-bottom: 20px;">🤰</div>
-                <p>Èske ou ansent? Kòmanse swiv tibebe w la.</p>
-                <button class="btn-main" onclick="openModal('pregSetupModal')">WI, MWEN ANSENT!</button>
-            </div>
-            <div id="pregDashboard" style="display: none; text-align: center;">
+            <h2 style="text-align:center; color:var(--dark);">Gwosès 🤰</h2>
+            <div id="pregDashboard" style="display:none; text-align:center;">
                 <div style="font-size:70px;" id="pregFruit">🍓</div>
-                <h3 id="pregWeekTitle" style="color: var(--primary); margin:0;">Semèn --</h3>
-                <h4 id="pregMonthTitle" style="color: #666; margin:5px 0;">Mwa --</h4>
-                <p id="pregComparison" style="font-size:14px; color:#555;">--</p>
-                <div class="progress-container"><div id="pregProgressBar" class="progress-bar-fill"></div></div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
-                    <div class="info-box"><div class="info-title">AKOUCHMAN</div><div class="info-val" id="dueDateVal" style="font-size:13px;">--</div></div>
-                    <div class="info-box"><div class="info-title">KI RETE</div><div class="info-val" id="daysRemVal" style="font-size:13px;">--</div></div>
+                <h3 id="pregWeekTitle" style="color:var(--primary); margin:0;">--</h3>
+                <h4 id="pregMonthTitle" style="color:#666; margin:5px 0;">--</h4>
+                <div class="progress-container" style="background:#eee; height:12px; border-radius:10px; margin:15px 0; overflow:hidden;"><div id="pregProgressBar" style="height:100%; background:linear-gradient(to right, #f06292, #d81b60); transition:1s;"></div></div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <div class="info-box"><div class="info-title">AKOUCHMAN</div><div id="dueDateVal" style="font-size:12px; font-weight:700;">--</div></div>
+                    <div class="info-box"><div class="info-title">RETE</div><div id="daysRemVal" style="font-size:12px; font-weight:700;">--</div></div>
                 </div>
                 <div class="tool-card">
                     <h4>Tibebe a bouje? 👣</h4>
-                    <div style="font-size:30px; font-weight:800; color:var(--primary);" id="kickCount">0</div>
+                    <div style="font-size:25px; font-weight:800;" id="kickDisplay">0 fwa</div>
                     <button class="btn-main" style="width:60px; height:60px; border-radius:50%; margin:10px auto;" onclick="addKick()">👣</button>
+                    <div id="kickLog" class="history-log"></div>
+                    <p style="font-size:11px; color:#aaa; cursor:pointer;" onclick="resetKicks()">Reset kontè</p>
                 </div>
                 <div class="tool-card">
                     <h4>Kontraksyon ⏱️</h4>
-                    <div id="contraTimer" style="font-size:22px; font-weight:700; color:red; display:none;">00:00</div>
+                    <div id="contraTimer" style="font-size:22px; color:red; display:none;">00:00</div>
                     <button id="btnStartC" class="btn-main" style="background:green;" onclick="startContra()">KÒMANSE</button>
                     <button id="btnStopC" class="btn-main" style="background:red; display:none;" onclick="stopContra()">STOP</button>
-                    <div class="contra-log" id="contraLog">Okenn.</div>
+                    <div class="history-log" id="contraLog"></div>
+                    <p style="font-size:11px; color:#aaa; cursor:pointer; margin-top:10px;" onclick="resetContra()">Reset istorik</p>
                 </div>
-                <div class="tool-card">
-                    <h4>Sentòm 🌡️</h4>
-                    <input type="text" id="symptomIn" placeholder="Kisa w santi?">
-                    <button class="btn-main" onclick="addSymptom()">ANREJISTRE</button>
-                    <div id="symptomList" style="margin-top:10px;"></div>
-                </div>
+                <div id="pregAdvice" style="background:#fff3e0; padding:15px; border-radius:15px; margin-top:15px; font-size:13px; text-align:left;"></div>
                 <button class="btn-main" style="background:#eee; color:#999; margin-top:15px;" onclick="stopPregnancy()">SISPANN SWIVI</button>
                 <div style="height: 80px;"></div>
             </div>
+            <div id="notPregView" style="text-align:center; padding-top:40px;">
+                <button class="btn-main" onclick="openModal('pregSetupModal')">WI, MWEN ANSENT!</button>
+            </div>
         </div>
 
-        <!-- 9. ROBOT PAGE -->
-        <div id="robotPage" class="page">
-            <h2 style="text-align:center; color:var(--primary);">Asistan AI 🤖</h2>
-            <textarea id="botIn" rows="3" style="width:100%; border-radius:15px; padding:15px; border:1px solid #eee; resize:none;" placeholder="Poze m nenpòt kesyon..."></textarea>
-            <button class="btn-main" style="background:var(--dark);" onclick="askBot()">MANDE ROBÒT LA</button>
-            <div id="botRes" style="background:#f3e5f5; padding:15px; border-radius:15px; margin-top:20px; display:none; font-size:14px;"></div>
+        <!-- 9. HEALTH & CARE PAGE -->
+        <div id="healthCarePage" class="page">
+            <h2 style="text-align:center; color:var(--primary);">Sante & Swivi 🏥</h2>
+            <div class="tool-card">
+                <h4>Kijan w santi w? 😊</h4>
+                <div style="display:flex; justify-content:space-around; margin:10px 0;">
+                    <span class="mood-btn" onclick="logMood('Byen 😊', 'Super! Bwè anpil dlo epi repoze w.')">😊</span>
+                    <span class="mood-btn" onclick="logMood('Noze 🤢', 'Bwè te jinjanm, sa ap ede w.')">🤢</span>
+                    <span class="mood-btn" onclick="logMood('Fatige 😴', 'Kò w ap travay, fè yon ti dòmi.')">😴</span>
+                    <span class="mood-btn" onclick="logMood('Doulè 🤕', 'Repoze w nan yon kote ki kalm.')">🤕</span>
+                </div>
+                <div id="moodRes" style="font-size:13px; color:var(--primary); font-weight:600;"></div>
+            </div>
+            <div class="tool-card">
+                <h4>Rapèl Medikaman 💊</h4>
+                <input type="text" id="remIn" placeholder="Egz: Vitamin 8:00 AM">
+                <button class="btn-main" onclick="addReminder()">AJOUTE</button>
+                <div id="remList" style="margin-top:10px;"></div>
+                <button class="btn-red" onclick="resetReminders()">EFASE TOUT RAPÈL</button>
+            </div>
+            <div class="tool-card">
+                <h4>Sentòm ak Doulè 🌡️</h4>
+                <input type="text" id="sympIn" placeholder="Egz: Doulè do">
+                <button class="btn-main" onclick="addSymptom()">ANREJISTRE</button>
+                <div id="sympList" style="margin-top:10px;"></div>
+                <button class="btn-red" onclick="resetSymptoms()">EFASE TOUT SENTÒM</button>
+            </div>
+            <div style="height:80px;"></div>
         </div>
 
-        <!-- 10. DONATION PAGE -->
+        <!-- 10. DONATION -->
         <div id="donationPage" class="page">
             <h2 style="text-align:center; color:#4caf50;">Sipòte n 💚</h2>
             <div class="status-card" style="text-align:left;">
-                <p>Èd ou ap pèmèt nou kontinye devlope Purecove pou ede plis medam an Ayiti.</p>
+                <p>Èd ou ap pèmèt nou kontinye devlope Purecove.</p>
                 <p><b>💸 Cash App:</b> $felixdiegobenius</p>
                 <p><b>💜 Zelle:</b> felixdiegobenius@gmail.com</p>
                 <button class="btn-main" onclick="showPage('trackerPage')">RETOUNEN</button>
@@ -193,66 +209,103 @@
         </div>
 
         <!-- MODALS -->
-        <div id="configModal" class="modal"><div class="modal-box"><h3>Sik Mansyèl</h3><input type="number" id="cycleInput" value="28"><button class="btn-main" onclick="saveConfig()">SOVE</button><p onclick="closeModal('configModal')" style="cursor:pointer; margin-top:15px; color:#ccc;">Anile</p></div></div>
-        <div id="pregSetupModal" class="modal"><div class="modal-box"><h3>Konfigirasyon</h3><p>Ki dat ou te gen dènye règ ou?</p><input type="date" id="pregDateIn"><button class="btn-main" onclick="savePregnancy()">KÒMANSE</button><p onclick="closeModal('pregSetupModal')" style="cursor:pointer; margin-top:15px; color:#ccc;">Anile</p></div></div>
-        <div id="actionModal" class="modal"><div class="modal-box"><h3 id="modalDate">--</h3><button class="btn-main" style="background:#b71c1c;" onclick="markAction('blood')">🩸 MAKE RÈG</button><button class="btn-main" style="background:#f06292;" onclick="markAction('sex')">💖 MAKE SÈKS</button><button class="btn-main" style="background:#eee; color:#666;" onclick="markAction('clear')">✕ RETIRE</button><p onclick="closeModal('actionModal')" style="cursor:pointer; margin-top:15px; color:#ccc;">Anile</p></div></div>
+        <div id="configModal" class="modal"><div class="modal-box"><h3>Sik Mansyèl</h3><input type="number" id="cycleInput" value="28"><button class="btn-main" onclick="saveConfig()">SOVE</button><p onclick="closeModal('configModal')" style="cursor:pointer; margin-top:15px;">Anile</p></div></div>
+        <div id="pregSetupModal" class="modal"><div class="modal-box"><h3>Konfigirasyon</h3><p>Ki dat dènye règ ou?</p><input type="date" id="pregDateIn"><button class="btn-main" onclick="savePregnancy()">KÒMANSE</button><p onclick="closeModal('pregSetupModal')" style="cursor:pointer; margin-top:15px;">Anile</p></div></div>
+        <div id="actionModal" class="modal"><div class="modal-box"><h3 id="modalDate">--</h3><button class="btn-main" style="background:#b71c1c;" onclick="markAction('blood')">🩸 MAKE RÈG</button><button class="btn-main" style="background:#f06292;" onclick="markAction('sex')">💖 MAKE SÈKS</button><button class="btn-main" style="background:#eee; color:#666;" onclick="markAction('clear')">✕ RETIRE</button><p onclick="closeModal('actionModal')" style="cursor:pointer; margin-top:15px;">Anile</p></div></div>
 
         <div id="bottomNav">
-            <div class="nav-btn" id="btnH" onclick="showPage('trackerPage')">🏠</div>
+            <div class="nav-btn active" id="btnH" onclick="showPage('trackerPage')">🏠</div>
             <div class="nav-btn" id="btnC" onclick="showPage('calendarPage')">📅</div>
             <div class="nav-btn" id="btnP" onclick="showPage('pregnancyPage')">🤰</div>
-            <div class="nav-btn" id="btnE" onclick="showPage('robotPage')">🤖</div>
+            <div class="nav-btn" id="btnE" onclick="showPage('healthCarePage')">🏥</div>
         </div>
     </div>
 
     <script>
-        let bloodDates = JSON.parse(localStorage.getItem('pb_v4')) || [];
-        let sexDates = JSON.parse(localStorage.getItem('ps_v4')) || [];
-        let cycleLen = parseInt(localStorage.getItem('pc_v4')) || 28;
-        let userName = localStorage.getItem('pn_v4') || "";
-        let pregDate = localStorage.getItem('pp_v4') || null;
-        let kicks = parseInt(localStorage.getItem('pk_v4')) || 0;
-        let contraLog = JSON.parse(localStorage.getItem('cl_v4')) || [];
-        let symptoms = JSON.parse(localStorage.getItem('sy_v4')) || [];
+        let bloodDates = JSON.parse(localStorage.getItem('pb_v8')) || [];
+        let sexDates = JSON.parse(localStorage.getItem('ps_v8')) || [];
+        let cycleLen = parseInt(localStorage.getItem('pc_v8')) || 28;
+        let userName = localStorage.getItem('pn_v8') || "";
+        let pregDate = localStorage.getItem('pp_v8') || null;
+        let kickLog = JSON.parse(localStorage.getItem('kl_v8')) || [];
+        let contraLog = JSON.parse(localStorage.getItem('cl_v8')) || [];
+        let reminders = JSON.parse(localStorage.getItem('rm_v8')) || [];
+        let symptoms = JSON.parse(localStorage.getItem('sy_v8')) || [];
         let currentViewDate = new Date();
         let selectedDateStr = "";
-        let cStart = null; let tInt = null;
 
-        function startApp() { document.getElementById('welcomePage').style.display='none'; if(userName) showPage('trackerPage'); else showPage('loginPage'); }
-        function saveName() { userName = document.getElementById('nameInput').value.trim(); if(userName) { localStorage.setItem('pn_v4', userName); showPage('trackerPage'); } }
-        function handleLogin() { loginSuccess(); }
-        function handleSignUp() { showPage('loginPage'); }
-        function handleReset() { const e = document.getElementById('forgotEmail').value; if(e) { if(typeof Android !== "undefined") Android.resetPassword(e); else alert("Lyen voye nan: " + e); showPage('loginPage'); } }
+        function startApp() { document.getElementById('welcomePage').style.display='none'; showPage('loginPage'); }
+
+        function handleLogin() {
+            const e = document.getElementById('loginEmail').value.trim();
+            const p = document.getElementById('loginPass').value.trim();
+            if(e && p) {
+                if(typeof Android !== "undefined") Android.login(e,p);
+                else loginSuccess();
+            } else alert("Ranpli tout bwat yo!");
+        }
+
+        function handleSignUp() {
+            const e = document.getElementById('regEmail').value.trim();
+            const p = document.getElementById('regPass').value.trim();
+            if(e && p) {
+                if(typeof Android !== "undefined") Android.signUp(e,p);
+                else showPage('loginPage');
+            }
+        }
+
+        function handleReset() {
+            const e = document.getElementById('forgotEmail').value.trim();
+            if(e) {
+                if(typeof Android !== "undefined") Android.resetPassword(e);
+                else alert("Lenk voye nan: " + e);
+            }
+        }
+
         function loginSuccess() { if(!userName) showPage('namePage'); else showPage('trackerPage'); }
+        function saveName() { userName = document.getElementById('nameInput').value.trim(); if(userName) { localStorage.setItem('pn_v8', userName); showPage('trackerPage'); } }
+
         function openModal(id) { document.getElementById(id).style.display='flex'; }
         function closeModal(id) { document.getElementById(id).style.display='none'; }
-        function saveConfig() { cycleLen = parseInt(document.getElementById('cycleInput').value) || 28; localStorage.setItem('pc_v4', cycleLen); closeModal('configModal'); updateIntelligence(); renderCalendar(); }
+        function saveConfig() { cycleLen = parseInt(document.getElementById('cycleInput').value) || 28; localStorage.setItem('pc_v8', cycleLen); closeModal('configModal'); updateStats(); renderCal(); }
 
         function showPage(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            const target = document.getElementById(id); if(target) target.classList.add('active');
-            const isInside = ['trackerPage', 'calendarPage', 'namePage', 'pregnancyPage', 'robotPage', 'donationPage'].includes(id);
+            const t = document.getElementById(id); if(t) t.classList.add('active');
+            const isInside = ['trackerPage','calendarPage','pregnancyPage','healthCarePage','donationPage'].includes(id);
             document.getElementById('bottomNav').style.display = (isInside && id !== 'namePage') ? 'flex' : 'none';
-            if(id === 'trackerPage') { document.getElementById('btnH').classList.add('active'); updateIntelligence(); }
-            if(id === 'calendarPage') { document.getElementById('btnC').classList.add('active'); renderCalendar(); }
-            if(id === 'pregnancyPage') { document.getElementById('btnP').classList.add('active'); updatePregUI(); }
-            if(id === 'robotPage') { document.getElementById('btnE').classList.add('active'); }
+            if(id==='trackerPage') { document.getElementById('btnH').classList.add('active'); updateStats(); }
+            if(id==='calendarPage') { document.getElementById('btnC').classList.add('active'); renderCal(); }
+            if(id==='pregnancyPage') { document.getElementById('btnP').classList.add('active'); updatePreg(); }
+            if(id==='healthCarePage') { document.getElementById('btnE').classList.add('active'); updateHealth(); }
         }
 
-        function updateIntelligence() {
-            document.getElementById('userTitle').innerText = "Bonjou, " + userName + "! 🌸";
-            if(bloodDates.length === 0) return;
-            const last = new Date([...bloodDates].sort((a,b) => b.localeCompare(a))[0] + "T00:00:00");
-            const next = new Date(last); next.setDate(next.getDate() + cycleLen);
-            const diff = Math.ceil((next - new Date().setHours(0,0,0,0)) / (1000*60*60*24));
-            document.getElementById('daysLeft').innerText = diff > 0 ? diff : 0;
-            document.getElementById('dashNextDate').innerText = next.toLocaleDateString('ht', {day:'numeric', month:'long'});
-            document.getElementById('dashResults').style.display = 'block';
+        function updateStats() {
+            const userTitle = document.getElementById('userTitle');
+            if(userTitle) userTitle.innerText = "Bonjou, " + userName + "! 🌸";
+            const daysLeftEl = document.getElementById('daysLeft');
+            const dashRes = document.getElementById('dashResults');
+            const dashNext = document.getElementById('dashNextDate');
+
+            if(bloodDates.length > 0) {
+                const sorted = [...bloodDates].sort((a,b) => b.localeCompare(a));
+                const last = new Date(sorted[0]+"T00:00:00");
+                const next = new Date(last.getTime() + cycleLen*24*60*60*1000);
+                const today = new Date(); today.setHours(0,0,0,0);
+                const diff = Math.ceil((next - today)/(1000*60*60*24));
+                if(daysLeftEl) daysLeftEl.innerText = diff > 0 ? diff : 0;
+                if(dashNext) dashNext.innerText = next.toLocaleDateString('ht', {day:'numeric', month:'long'});
+                if(dashRes) dashRes.style.display = 'block';
+            } else {
+                if(daysLeftEl) daysLeftEl.innerText = "--";
+                if(dashRes) dashRes.style.display = 'none';
+            }
         }
 
-        function renderCalendar() {
-            const grid = document.getElementById('calendarGrid'); grid.innerHTML = "";
+        function renderCal() {
+            const grid = document.getElementById('calendarGrid'); if(!grid) return;
+            grid.innerHTML = "";
             document.getElementById('monthYearText').innerText = currentViewDate.toLocaleDateString('ht', {month:'long', year:'numeric'});
             ["Dim", "Len", "Mad", "Mèk", "Jid", "Van", "Sam"].forEach(d => { const div = document.createElement('div'); div.className='day-name'; div.innerText=d; grid.appendChild(div); });
             const first = new Date(currentViewDate.getFullYear(), currentViewDate.getMonth(), 1);
@@ -260,52 +313,86 @@
             for(let i=0; i<first.getDay(); i++) grid.appendChild(document.createElement('div')).className='calendar-day other-month';
             const prefix = currentViewDate.getFullYear() + '-' + String(currentViewDate.getMonth() + 1).padStart(2, '0');
             const hasData = bloodDates.some(d => d.startsWith(prefix));
-            document.getElementById('calendarSummary').style.display = hasData ? 'block' : 'none';
+
+            const summary = document.getElementById('calendarSummary');
+            if(hasData) {
+                if(summary) summary.style.display = 'block';
+                const sorted = bloodDates.filter(d => d.startsWith(prefix)).sort();
+                const fM = new Date(sorted[0]+"T00:00:00");
+                const nP = new Date(fM.getTime() + cycleLen*24*60*60*1000);
+                const o = new Date(nP.getTime() - 14*24*60*60*1000);
+                const msgN = document.getElementById('msgNext');
+                const msgF = document.getElementById('msgFertile');
+                if(msgN) msgN.innerText = "🌸 Pwochen règ: " + nP.toLocaleDateString('ht', {day:'numeric', month:'long'});
+                if(msgF) msgF.innerText = "💧 Jou Fètil: " + new Date(o.getTime()-3*24*60*60*1000).toLocaleDateString('ht', {day:'numeric', month:'short'}) + " - " + new Date(o.getTime()+1*24*60*60*1000).toLocaleDateString('ht', {day:'numeric', month:'short'});
+            } else { if(summary) summary.style.display = 'none'; }
+
             for(let d=1; d<=last.getDate(); d++) {
                 const ds = prefix + '-' + String(d).padStart(2, '0');
                 const div = document.createElement('div'); div.className='calendar-day';
-                div.onclick = () => { selectedDateStr = ds; document.getElementById('modalDate').innerText = new Date(ds + "T00:00:00").toLocaleDateString('ht', {day:'numeric', month:'long'}); openModal('actionModal'); };
+                if(bloodDates.includes(ds)) div.classList.add('is-selected');
+                div.onclick = () => { selectedDateStr = ds; document.getElementById('modalDate').innerText = new Date(ds+"T00:00:00").toLocaleDateString('ht',{day:'numeric',month:'long'}); openModal('actionModal'); };
                 let isF = false;
                 if(hasData) {
-                    const fM = new Date(bloodDates.filter(d => d.startsWith(prefix)).sort()[0] + "T00:00:00");
-                    const nP = new Date(fM); nP.setDate(nP.getDate() + cycleLen);
-                    const o = new Date(nP); o.setDate(o.getDate() - 14);
-                    for(let i=-4; i<=1; i++) { let f = new Date(o); f.setDate(f.getDate() + i); if(f.toISOString().split('T')[0] === ds) isF = true; }
-                    if(isF) { document.getElementById('msgNext').innerText = "🌸 Pwochen règ: " + nP.toLocaleDateString('ht', {day:'numeric', month:'long'}); document.getElementById('msgFertile').innerText = "💧 Jou Fètil: " + new Date(o.getTime()-259200000).toLocaleDateString('ht', {day:'numeric', month:'short'}) + " - " + new Date(o.getTime()+172800000).toLocaleDateString('ht', {day:'numeric', month:'short'}); }
+                    const sorted = bloodDates.filter(d => d.startsWith(prefix)).sort();
+                    const fM = new Date(sorted[0]+"T00:00:00");
+                    const nP = new Date(fM.getTime() + cycleLen*24*60*60*1000);
+                    const o = new Date(nP.getTime() - 14*24*60*60*1000);
+                    for(let i=-4; i<=1; i++) { const fd = new Date(o.getTime() + i*24*60*60*1000); if(fd.toISOString().split('T')[0] === ds) isF = true; }
                 }
-                const icon = (bloodDates.includes(ds)) ? '🩸' : (sexDates.includes(ds) ? '💖' : (isF ? '💧' : ''));
+                const icon = bloodDates.includes(ds) ? '🩸' : (sexDates.includes(ds) ? '💖' : (isF ? '💧' : ''));
                 div.innerHTML = `<span class="day-num">${d}</span><span class="day-icon">${icon}</span>`; grid.appendChild(div);
             }
         }
-        function markAction(t) { bloodDates = bloodDates.filter(d=>d!==selectedDateStr); sexDates = sexDates.filter(d=>d!==selectedDateStr); if(t==='blood') bloodDates.push(selectedDateStr); if(t==='sex') sexDates.push(selectedDateStr); localStorage.setItem('pb_v4', JSON.stringify(bloodDates)); localStorage.setItem('ps_v4', JSON.stringify(sexDates)); closeModal('actionModal'); renderCalendar(); }
-        function changeMonth(d) { currentViewDate.setMonth(currentViewDate.getMonth() + d); renderCalendar(); }
-        function savePregnancy() { const d = document.getElementById('pregDateIn').value; if(d) { localStorage.setItem('pp_v4', d); pregDate = d; closeModal('pregSetupModal'); updatePregUI(); } }
-        function stopPregnancy() { if(confirm("Sispann?")) { localStorage.removeItem('pp_v4'); pregDate=null; updatePregUI(); } }
-        function addKick() { kicks++; localStorage.setItem('pk_v4', kicks); document.getElementById('kickCount').innerText = kicks; }
-        function startContra() { cStart = new Date(); document.getElementById('btnStartC').style.display='none'; document.getElementById('btnStopC').style.display='block'; document.getElementById('contraTimer').style.display='block'; tInt = setInterval(() => { const diff = Math.floor((new Date()-cStart)/1000); document.getElementById('contraTimer').innerText = String(Math.floor(diff/60)).padStart(2,'0')+":"+String(diff%60).padStart(2,'0'); },1000); }
-        function stopContra() { clearInterval(tInt); const dur = Math.floor((new Date()-cStart)/1000); let ds = dur+" seg"; if(dur>=60) ds = Math.floor(dur/60)+" min, "+(dur%60)+" seg"; contraLog.unshift(cStart.toLocaleTimeString('ht',{hour:'2-digit',minute:'2-digit'})+" ("+ds+")"); localStorage.setItem('cl_v4', JSON.stringify(contraLog)); document.getElementById('btnStartC').style.display='block'; document.getElementById('btnStopC').style.display='none'; document.getElementById('contraTimer').style.display='none'; updatePregUI(); }
-        function addSymptom() { const v = document.getElementById('symptomIn').value; if(v) { symptoms.unshift({id:Date.now(), t:v, d:new Date().toLocaleDateString('ht',{day:'numeric',month:'short'})}); localStorage.setItem('sy_v4', JSON.stringify(symptoms)); document.getElementById('symptomIn').value=""; updatePregUI(); } }
-        function delSymptom(id) { symptoms = symptoms.filter(s=>s.id!==id); localStorage.setItem('sy_v4', JSON.stringify(symptoms)); updatePregUI(); }
-        function askBot() { const q = document.getElementById('botIn').value.toLowerCase(); const b = document.getElementById('botRes'); let r = "Mwen se asistan Purecove ou."; if(q.includes("ansent")) r = "Pou w ansent, espèm dwe rankontre òvil la nan jou fètil yo (💧)."; if(q.includes("doulè")) r = "Doulè règ nòmal, men si l fò anpil, wè yon doktè."; b.innerHTML = "<b>🤖 AI:</b> "+r; b.style.display="block"; }
 
-        function updatePregUI() {
+        function markAction(t) { bloodDates = bloodDates.filter(d=>d!==selectedDateStr); sexDates = sexDates.filter(d=>d!==selectedDateStr); if(t==='blood') bloodDates.push(selectedDateStr); if(t==='sex') sexDates.push(selectedDateStr); localStorage.setItem('pb_v8', JSON.stringify(bloodDates)); localStorage.setItem('ps_v8', JSON.stringify(sexDates)); closeModal('actionModal'); renderCal(); updateStats(); }
+        function changeMonth(d) { currentViewDate.setMonth(currentViewDate.getMonth() + d); renderCal(); }
+
+        function savePregnancy() { const d = document.getElementById('pregDateIn').value; if(d) { localStorage.setItem('pp_v8', d); pregDate=d; closeModal('pregSetupModal'); updatePreg(); } }
+        function stopPregnancy() { if(confirm("Sispann?")) { localStorage.removeItem('pp_v8'); pregDate=null; updatePreg(); } }
+        function addKick() { const now = new Date(); kickLog.unshift({time:now.toLocaleTimeString('ht',{hour:'2-digit',minute:'2-digit'}), date:now.toLocaleDateString('ht',{day:'numeric',month:'short'})}); localStorage.setItem('kl_v8', JSON.stringify(kickLog)); updatePreg(); }
+        function resetKicks() { if(confirm("Reset?")) { kickLog=[]; localStorage.setItem('kl_v8', "[]"); updatePreg(); } }
+        function resetContra() { if(confirm("Reset istorik kontraksyon?")) { contraLog=[]; localStorage.setItem('cl_v8', "[]"); updatePreg(); } }
+
+        function startContra() { cStart = new Date(); document.getElementById('btnStartC').style.display='none'; document.getElementById('btnStopC').style.display='block'; document.getElementById('contraTimer').style.display='block'; tInt = setInterval(() => { const diff = Math.floor((new Date()-cStart)/1000); document.getElementById('contraTimer').innerText = String(Math.floor(diff/60)).padStart(2,'0')+":"+String(diff%60).padStart(2,'0'); },1000); }
+        function stopContra() { clearInterval(tInt); const dur = Math.floor((new Date()-cStart)/1000); let ds = dur+" seg"; if(dur>=60) ds = Math.floor(dur/60)+" min, "+(dur%60)+" seg"; contraLog.unshift(cStart.toLocaleTimeString('ht',{hour:'2-digit',minute:'2-digit'})+" ("+ds+")"); localStorage.setItem('cl_v8', JSON.stringify(contraLog)); document.getElementById('btnStartC').style.display='block'; document.getElementById('btnStopC').style.display='none'; document.getElementById('contraTimer').style.display='none'; updatePreg(); }
+
+        function logMood(m, a) { document.getElementById('moodRes').innerHTML = "<b>Santiman:</b> "+m+"<br>💡 "+a; }
+        function addReminder() { const v = document.getElementById('remIn').value; if(v) { reminders.push(v); localStorage.setItem('rm_v8', JSON.stringify(reminders)); document.getElementById('remIn').value=""; updateHealth(); } }
+        function resetReminders() { if(confirm("Efase tout rapèl yo?")) { reminders = []; localStorage.setItem('rm_v8', "[]"); updateHealth(); } }
+        function addSymptom() { const v = document.getElementById('sympIn').value; if(v) { symptoms.push(v); localStorage.setItem('sy_v8', JSON.stringify(symptoms)); document.getElementById('sympIn').value=""; updateHealth(); } }
+        function resetSymptoms() { if(confirm("Efase tout sentòm yo?")) { symptoms = []; localStorage.setItem('sy_v8', "[]"); updateHealth(); } }
+
+        function updateHealth() {
+            document.getElementById('remList').innerHTML = reminders.map(r => `<div class="reminder-item">${r}</div>`).join("");
+            document.getElementById('sympList').innerHTML = symptoms.map(s => `<div class="reminder-item" style="border-left-color:orange;">${s}</div>`).join("");
+        }
+
+        function updatePreg() {
             const nv = document.getElementById('notPregView'); const pd = document.getElementById('pregDashboard');
             if(!pregDate) { nv.style.display='block'; pd.style.display='none'; return; }
             nv.style.display='none'; pd.style.display='block';
-            document.getElementById('kickCount').innerText = kicks;
-            document.getElementById('contraLog').innerHTML = contraLog.length ? contraLog.map(t=>"⚠️ <b>"+t+"</b>").join("<br>") : "Okenn.";
-            document.getElementById('symptomList').innerHTML = symptoms.map(s=>`<div class="symptom-item"><span><b>${s.d}:</b> ${s.t}</span><button class="btn-del" onclick="delSymptom(${s.id})">×</button></div>`).join("");
+            document.getElementById('kickDisplay').innerText = kickLog.length + " fwa";
+            document.getElementById('kickLog').innerHTML = kickLog.slice(0,3).map(k=>"👣 <b>"+k.date+" - "+k.time+"</b>").join("<br>");
+            document.getElementById('contraLog').innerHTML = contraLog.slice(0,3).map(k=>"⚠️ <b>"+k+"</b>").join("<br>");
             const diff = Math.floor((new Date()-new Date(pregDate+"T00:00:00"))/(1000*60*60*24*7))+1;
             const w = diff < 1 ? 1 : (diff > 42 ? 42 : diff);
             let m = 1; if(w>=5) m=2; if(w>=9) m=3; if(w>=14) m=4; if(w>=18) m=5; if(w>=23) m=6; if(w>=28) m=7; if(w>=32) m=8; if(w>=36) m=9;
             const due = new Date(new Date(pregDate+"T00:00:00").getTime()+24192000000);
             document.getElementById('pregWeekTitle').innerText = "Semèn "+w; document.getElementById('pregMonthTitle').innerText = "Mwa "+m;
             document.getElementById('dueDateVal').innerText = due.toLocaleDateString('ht',{day:'numeric',month:'long',year:'numeric'});
-            document.getElementById('daysRemVal').innerText = Math.ceil((due - new Date())/(1000*60*60*24))+" jou";
+            document.getElementById('daysRemVal').innerText = Math.ceil((due-new Date())/(1000*60*60*24))+" jou";
             document.getElementById('pregProgressBar').style.width = (w/40*100)+"%";
-            let f = "🍍"; let c = "Tibebe a gwo tankou yon Anana 🍍";
-            if(w<9) { f="🍓"; c="Tibebe a gwo tankou yon Grann Friz 🍓"; } else if(w<14) { f="🍋"; c="Tibebe a gwo tankou yon Grenn Sitwon 🍋"; }
+            let f = "🍓"; let c = "Tibebe a gwo tankou yon Grann Friz 🍓"; let a = "<b>Mwa 1-2:</b> Tibebe a se yon ti kras selil toujou, men kè l ap fòme.";
+            if(w >= 9 && w < 14) { f = "🍋"; c = "Gwo tankou yon Sitwon 🍋"; a = "<b>Mwa 3:</b> Li gen dwèt ak zong kounye a, li kòmanse bouje anndan vant ou."; }
+            else if(w >= 14 && w < 18) { f = "🍊"; c = "Gwo tankou yon Zoranj 🍊"; a = "<b>Mwa 4:</b> Sèks tibebe a parèt byen vizib, li ka souse dwèt li kounye a."; }
+            else if(w >= 18 && w < 23) { f = "🥭"; c = "Gwo tankou yon Mango 🥭"; a = "<b>Mwa 5:</b> Li kòmanse tande vwa w ak mizik deyò, li trè aktif!"; }
+            else if(w >= 23 && w < 28) { f = "🥦"; c = "Gwo tankou yon Chouflè 🥦"; a = "<b>Mwa 6:</b> Po l kòmanse parèt wouj, li kòmanse louvri je l."; }
+            else if(w >= 28 && w < 32) { f = "🌽"; c = "Gwo tankou yon Mayi 🌽"; a = "<b>Mwa 7:</b> Li ka rekonèt limyè, konesans li ap devlope rapid."; }
+            else if(w >= 32 && w < 36) { f = "🍍"; c = "Gwo tankou yon Anana 🍍"; a = "<b>Mwa 8:</b> Pifò nan ògàn li yo fini, l ap pran pwa chak jou."; }
+            else if(w >= 36) { f = "🍉"; c = "Pare pou l soti! 🍉"; a = "<b>Mwa 9:</b> Li pozisyone tèt li anba, li pare nèt pou l soti vin wè w!"; }
             document.getElementById('pregFruit').innerText = f; document.getElementById('pregComparison').innerText = c;
+            document.getElementById('pregAdvice').innerHTML = "<b>💡 Detay:</b> "+a;
         }
     </script>
 </body>
