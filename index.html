@@ -29,10 +29,9 @@
 
         /* CALENDAR */
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
-        .day-name { text-align: center; font-size: 11px; color: #bbb; font-weight: 700; padding-bottom: 8px; }
         .calendar-day { background: #fff; border: 1px solid #f5f5f5; border-radius: 12px; height: 62px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; position: relative; transition: 0.2s; }
         .day-num { font-size: 14px; font-weight: 700; }
-        .day-icon { font-size: 18px; height: 20px; line-height: 1; }
+        .day-icon { font-size: 18px; height: 20px; }
         .is-selected { background: #fff0f5 !important; border-color: var(--primary) !important; }
 
         /* TOOLS STYLE */
@@ -78,7 +77,7 @@
             <p style="font-size:14px; color:#777; text-align:center;">Antre imèl ou pou n ka voye yon lyen pou w chanje modpas ou.</p>
             <input type="email" id="forgotEmail" placeholder="Imèl ou">
             <button class="btn-main" onclick="handleReset()">VOYE LENK</button>
-            <p style="text-align:center; margin-top:20px; color:#999;" onclick="showPage('loginPage')">Retounen dèyè</p>
+            <p style="text-align:center; margin-top:20px; color:#999; cursor:pointer;" onclick="showPage('loginPage')">Retounen dèyè</p>
         </div>
 
         <!-- 4. SIGNUP -->
@@ -87,7 +86,7 @@
             <input type="email" id="regEmail" placeholder="Imèl">
             <input type="password" id="regPass" placeholder="Modpas">
             <button class="btn-main" onclick="handleSignUp()">ANREJISTRE</button>
-            <p style="text-align:center; margin-top:20px; color:#999;" onclick="showPage('loginPage')">Retounen nan Login</p>
+            <p style="text-align:center; margin-top:20px; color:#999; cursor:pointer;" onclick="showPage('loginPage')">Retounen nan Login</p>
         </div>
 
         <!-- 5. NAME SETUP -->
@@ -214,7 +213,7 @@
         <div id="actionModal" class="modal"><div class="modal-box"><h3 id="modalDate">--</h3><button class="btn-main" style="background:#b71c1c;" onclick="markAction('blood')">🩸 MAKE RÈG</button><button class="btn-main" style="background:#f06292;" onclick="markAction('sex')">💖 MAKE SÈKS</button><button class="btn-main" style="background:#eee; color:#666;" onclick="markAction('clear')">✕ RETIRE</button><p onclick="closeModal('actionModal')" style="cursor:pointer; margin-top:15px;">Anile</p></div></div>
 
         <div id="bottomNav">
-            <div class="nav-btn active" id="btnH" onclick="showPage('trackerPage')">🏠</div>
+            <div class="nav-btn" id="btnH" onclick="showPage('trackerPage')">🏠</div>
             <div class="nav-btn" id="btnC" onclick="showPage('calendarPage')">📅</div>
             <div class="nav-btn" id="btnP" onclick="showPage('pregnancyPage')">🤰</div>
             <div class="nav-btn" id="btnE" onclick="showPage('healthCarePage')">🏥</div>
@@ -222,19 +221,22 @@
     </div>
 
     <script>
-        let bloodDates = JSON.parse(localStorage.getItem('pb_v8')) || [];
-        let sexDates = JSON.parse(localStorage.getItem('ps_v8')) || [];
-        let cycleLen = parseInt(localStorage.getItem('pc_v8')) || 28;
-        let userName = localStorage.getItem('pn_v8') || "";
-        let pregDate = localStorage.getItem('pp_v8') || null;
-        let kickLog = JSON.parse(localStorage.getItem('kl_v8')) || [];
-        let contraLog = JSON.parse(localStorage.getItem('cl_v8')) || [];
-        let reminders = JSON.parse(localStorage.getItem('rm_v8')) || [];
-        let symptoms = JSON.parse(localStorage.getItem('sy_v8')) || [];
+        let bloodDates = JSON.parse(localStorage.getItem('pb_v10')) || [];
+        let sexDates = JSON.parse(localStorage.getItem('ps_v10')) || [];
+        let cycleLen = parseInt(localStorage.getItem('pc_v10')) || 28;
+        let userName = localStorage.getItem('pn_v10') || "";
+        let pregDate = localStorage.getItem('pp_v10') || null;
+        let kickLog = JSON.parse(localStorage.getItem('kl_v10')) || [];
+        let contraLog = JSON.parse(localStorage.getItem('cl_v10')) || [];
+        let reminders = JSON.parse(localStorage.getItem('rm_v10')) || [];
+        let symptoms = JSON.parse(localStorage.getItem('sy_v10')) || [];
         let currentViewDate = new Date();
         let selectedDateStr = "";
 
-        function startApp() { document.getElementById('welcomePage').style.display='none'; showPage('loginPage'); }
+        function startApp() { 
+            document.getElementById('welcomePage').style.display = 'none'; 
+            showPage('loginPage'); 
+        }
 
         function handleLogin() {
             const e = document.getElementById('loginEmail').value.trim();
@@ -242,7 +244,7 @@
             if(e && p) {
                 if(typeof Android !== "undefined") Android.login(e,p);
                 else loginSuccess();
-            } else alert("Ranpli tout bwat yo!");
+            } else alert("Ranpli bwat yo!");
         }
 
         function handleSignUp() {
@@ -259,15 +261,15 @@
             if(e) {
                 if(typeof Android !== "undefined") Android.resetPassword(e);
                 else alert("Lenk voye nan: " + e);
-            }
+            } else alert("Antre imèl ou!");
         }
 
         function loginSuccess() { if(!userName) showPage('namePage'); else showPage('trackerPage'); }
-        function saveName() { userName = document.getElementById('nameInput').value.trim(); if(userName) { localStorage.setItem('pn_v8', userName); showPage('trackerPage'); } }
+        function saveName() { userName = document.getElementById('nameInput').value.trim(); if(userName) { localStorage.setItem('pn_v10', userName); showPage('trackerPage'); } }
 
         function openModal(id) { document.getElementById(id).style.display='flex'; }
         function closeModal(id) { document.getElementById(id).style.display='none'; }
-        function saveConfig() { cycleLen = parseInt(document.getElementById('cycleInput').value) || 28; localStorage.setItem('pc_v8', cycleLen); closeModal('configModal'); updateStats(); renderCal(); }
+        function saveConfig() { cycleLen = parseInt(document.getElementById('cycleInput').value) || 28; localStorage.setItem('pc_v10', cycleLen); closeModal('configModal'); updateStats(); renderCal(); }
 
         function showPage(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -275,25 +277,22 @@
             const t = document.getElementById(id); if(t) t.classList.add('active');
             const isInside = ['trackerPage','calendarPage','pregnancyPage','healthCarePage','donationPage'].includes(id);
             document.getElementById('bottomNav').style.display = (isInside && id !== 'namePage') ? 'flex' : 'none';
-            if(id==='trackerPage') { document.getElementById('btnH').classList.add('active'); updateStats(); }
-            if(id==='calendarPage') { document.getElementById('btnC').classList.add('active'); renderCal(); }
-            if(id==='pregnancyPage') { document.getElementById('btnP').classList.add('active'); updatePreg(); }
-            if(id==='healthCarePage') { document.getElementById('btnE').classList.add('active'); updateHealth(); }
+            if(id==='trackerPage') { if(document.getElementById('btnH')) document.getElementById('btnH').classList.add('active'); updateStats(); }
+            if(id==='calendarPage') { if(document.getElementById('btnC')) document.getElementById('btnC').classList.add('active'); renderCal(); }
+            if(id==='pregnancyPage') { if(document.getElementById('btnP')) document.getElementById('btnP').classList.add('active'); updatePreg(); }
+            if(id==='healthCarePage') { if(document.getElementById('btnE')) document.getElementById('btnE').classList.add('active'); updateHealth(); }
         }
 
         function updateStats() {
-            const userTitle = document.getElementById('userTitle');
-            if(userTitle) userTitle.innerText = "Bonjou, " + userName + "! 🌸";
+            if(document.getElementById('userTitle')) document.getElementById('userTitle').innerText = "Bonjou, " + userName + "! 🌸";
             const daysLeftEl = document.getElementById('daysLeft');
             const dashRes = document.getElementById('dashResults');
             const dashNext = document.getElementById('dashNextDate');
-
             if(bloodDates.length > 0) {
                 const sorted = [...bloodDates].sort((a,b) => b.localeCompare(a));
                 const last = new Date(sorted[0]+"T00:00:00");
                 const next = new Date(last.getTime() + cycleLen*24*60*60*1000);
-                const today = new Date(); today.setHours(0,0,0,0);
-                const diff = Math.ceil((next - today)/(1000*60*60*24));
+                const diff = Math.ceil((next - new Date().setHours(0,0,0,0))/(1000*60*60*24));
                 if(daysLeftEl) daysLeftEl.innerText = diff > 0 ? diff : 0;
                 if(dashNext) dashNext.innerText = next.toLocaleDateString('ht', {day:'numeric', month:'long'});
                 if(dashRes) dashRes.style.display = 'block';
@@ -313,7 +312,6 @@
             for(let i=0; i<first.getDay(); i++) grid.appendChild(document.createElement('div')).className='calendar-day other-month';
             const prefix = currentViewDate.getFullYear() + '-' + String(currentViewDate.getMonth() + 1).padStart(2, '0');
             const hasData = bloodDates.some(d => d.startsWith(prefix));
-
             const summary = document.getElementById('calendarSummary');
             if(hasData) {
                 if(summary) summary.style.display = 'block';
@@ -321,12 +319,9 @@
                 const fM = new Date(sorted[0]+"T00:00:00");
                 const nP = new Date(fM.getTime() + cycleLen*24*60*60*1000);
                 const o = new Date(nP.getTime() - 14*24*60*60*1000);
-                const msgN = document.getElementById('msgNext');
-                const msgF = document.getElementById('msgFertile');
-                if(msgN) msgN.innerText = "🌸 Pwochen règ: " + nP.toLocaleDateString('ht', {day:'numeric', month:'long'});
-                if(msgF) msgF.innerText = "💧 Jou Fètil: " + new Date(o.getTime()-3*24*60*60*1000).toLocaleDateString('ht', {day:'numeric', month:'short'}) + " - " + new Date(o.getTime()+1*24*60*60*1000).toLocaleDateString('ht', {day:'numeric', month:'short'});
+                if(document.getElementById('msgNext')) document.getElementById('msgNext').innerText = "🌸 Pwochen règ: " + nP.toLocaleDateString('ht', {day:'numeric', month:'long'});
+                if(document.getElementById('msgFertile')) document.getElementById('msgFertile').innerText = "💧 Jou Fètil: " + new Date(o.getTime()-3*24*60*60*1000).toLocaleDateString('ht', {day:'numeric', month:'short'}) + " - " + new Date(o.getTime()+1*24*60*60*1000).toLocaleDateString('ht', {day:'numeric', month:'short'});
             } else { if(summary) summary.style.display = 'none'; }
-
             for(let d=1; d<=last.getDate(); d++) {
                 const ds = prefix + '-' + String(d).padStart(2, '0');
                 const div = document.createElement('div'); div.className='calendar-day';
@@ -345,24 +340,23 @@
             }
         }
 
-        function markAction(t) { bloodDates = bloodDates.filter(d=>d!==selectedDateStr); sexDates = sexDates.filter(d=>d!==selectedDateStr); if(t==='blood') bloodDates.push(selectedDateStr); if(t==='sex') sexDates.push(selectedDateStr); localStorage.setItem('pb_v8', JSON.stringify(bloodDates)); localStorage.setItem('ps_v8', JSON.stringify(sexDates)); closeModal('actionModal'); renderCal(); updateStats(); }
+        function markAction(t) { bloodDates = bloodDates.filter(d=>d!==selectedDateStr); sexDates = sexDates.filter(d=>d!==selectedDateStr); if(t==='blood') bloodDates.push(selectedDateStr); if(t==='sex') sexDates.push(selectedDateStr); localStorage.setItem('pb_v10', JSON.stringify(bloodDates)); localStorage.setItem('ps_v10', JSON.stringify(sexDates)); closeModal('actionModal'); renderCal(); updateStats(); }
         function changeMonth(d) { currentViewDate.setMonth(currentViewDate.getMonth() + d); renderCal(); }
 
-        function savePregnancy() { const d = document.getElementById('pregDateIn').value; if(d) { localStorage.setItem('pp_v8', d); pregDate=d; closeModal('pregSetupModal'); updatePreg(); } }
-        function stopPregnancy() { if(confirm("Sispann?")) { localStorage.removeItem('pp_v8'); pregDate=null; updatePreg(); } }
-        function addKick() { const now = new Date(); kickLog.unshift({time:now.toLocaleTimeString('ht',{hour:'2-digit',minute:'2-digit'}), date:now.toLocaleDateString('ht',{day:'numeric',month:'short'})}); localStorage.setItem('kl_v8', JSON.stringify(kickLog)); updatePreg(); }
-        function resetKicks() { if(confirm("Reset?")) { kickLog=[]; localStorage.setItem('kl_v8', "[]"); updatePreg(); } }
-        function resetContra() { if(confirm("Reset istorik kontraksyon?")) { contraLog=[]; localStorage.setItem('cl_v8', "[]"); updatePreg(); } }
+        function savePregnancy() { const d = document.getElementById('pregDateIn').value; if(d) { localStorage.setItem('pp_v10', d); pregDate=d; closeModal('pregSetupModal'); updatePreg(); } }
+        function stopPregnancy() { if(confirm("Sispann?")) { localStorage.removeItem('pp_v10'); pregDate=null; updatePreg(); } }
+        function addKick() { const now = new Date(); kickLog.unshift({time:now.toLocaleTimeString('ht',{hour:'2-digit',minute:'2-digit'}), date:now.toLocaleDateString('ht',{day:'numeric',month:'short'})}); localStorage.setItem('kl_v10', JSON.stringify(kickLog)); updatePreg(); }
+        function resetKicks() { if(confirm("Reset?")) { kickLog=[]; localStorage.setItem('kl_v10', "[]"); updatePreg(); } }
+        function resetContra() { if(confirm("Reset istorik?")) { contraLog=[]; localStorage.setItem('cl_v10', "[]"); updatePreg(); } }
 
         function startContra() { cStart = new Date(); document.getElementById('btnStartC').style.display='none'; document.getElementById('btnStopC').style.display='block'; document.getElementById('contraTimer').style.display='block'; tInt = setInterval(() => { const diff = Math.floor((new Date()-cStart)/1000); document.getElementById('contraTimer').innerText = String(Math.floor(diff/60)).padStart(2,'0')+":"+String(diff%60).padStart(2,'0'); },1000); }
-        function stopContra() { clearInterval(tInt); const dur = Math.floor((new Date()-cStart)/1000); let ds = dur+" seg"; if(dur>=60) ds = Math.floor(dur/60)+" min, "+(dur%60)+" seg"; contraLog.unshift(cStart.toLocaleTimeString('ht',{hour:'2-digit',minute:'2-digit'})+" ("+ds+")"); localStorage.setItem('cl_v8', JSON.stringify(contraLog)); document.getElementById('btnStartC').style.display='block'; document.getElementById('btnStopC').style.display='none'; document.getElementById('contraTimer').style.display='none'; updatePreg(); }
+        function stopContra() { clearInterval(tInt); const dur = Math.floor((new Date()-cStart)/1000); let ds = dur+" seg"; if(dur>=60) ds = Math.floor(dur/60)+" min, "+(dur%60)+" seg"; contraLog.unshift(cStart.toLocaleTimeString('ht',{hour:'2-digit',minute:'2-digit'})+" ("+ds+")"); localStorage.setItem('cl_v10', JSON.stringify(contraLog)); document.getElementById('btnStartC').style.display='block'; document.getElementById('btnStopC').style.display='none'; document.getElementById('contraTimer').style.display='none'; updatePreg(); }
 
         function logMood(m, a) { document.getElementById('moodRes').innerHTML = "<b>Santiman:</b> "+m+"<br>💡 "+a; }
-        function addReminder() { const v = document.getElementById('remIn').value; if(v) { reminders.push(v); localStorage.setItem('rm_v8', JSON.stringify(reminders)); document.getElementById('remIn').value=""; updateHealth(); } }
-        function resetReminders() { if(confirm("Efase tout rapèl yo?")) { reminders = []; localStorage.setItem('rm_v8', "[]"); updateHealth(); } }
-        function addSymptom() { const v = document.getElementById('sympIn').value; if(v) { symptoms.push(v); localStorage.setItem('sy_v8', JSON.stringify(symptoms)); document.getElementById('sympIn').value=""; updateHealth(); } }
-        function resetSymptoms() { if(confirm("Efase tout sentòm yo?")) { symptoms = []; localStorage.setItem('sy_v8', "[]"); updateHealth(); } }
-
+        function addReminder() { const v = document.getElementById('remIn').value; if(v) { reminders.push(v); localStorage.setItem('rm_v10', JSON.stringify(reminders)); document.getElementById('remIn').value=""; updateHealth(); } }
+        function resetReminders() { if(confirm("Efase tout rapèl yo?")) { reminders = []; localStorage.setItem('rm_v10', "[]"); updateHealth(); } }
+        function addSymptom() { const v = document.getElementById('sympIn').value; if(v) { symptoms.push(v); localStorage.setItem('sy_v10', JSON.stringify(symptoms)); document.getElementById('sympIn').value=""; updateHealth(); } }
+        function resetSymptoms() { if(confirm("Efase tout sentòm yo?")) { symptoms = []; localStorage.setItem('sy_v10', "[]"); updateHealth(); } }
         function updateHealth() {
             document.getElementById('remList').innerHTML = reminders.map(r => `<div class="reminder-item">${r}</div>`).join("");
             document.getElementById('sympList').innerHTML = symptoms.map(s => `<div class="reminder-item" style="border-left-color:orange;">${s}</div>`).join("");
